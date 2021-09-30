@@ -1,15 +1,22 @@
 var express = require('express')
 var bodyParser = require('body-parser')
-var path = require('path')
-var init = require('./db/initDB');
+var routes = require('./route/routes')
+var db = require('./db/initDB')
 
 const localPort = 3000
 var app = express()
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+db.init()
+
+app.use('/', routes)
 
 
-async function main(){
-    await init()
-    console.log(1)
-}
+app.listen(localPort)
+console.log("Server start")
 
-main()
+process.on('SIGTERM', () => {
+    server.close(() => {
+        console.log('Process terminated')
+    })
+})

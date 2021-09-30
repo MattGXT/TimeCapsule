@@ -9,7 +9,7 @@ const dbName = 'TimeCapsule';
 async function init() {
     // Use connect method to connect to the server
     await client.connect();
-    console.log('Connected successfully to server');
+    console.log('Connected successfully to database');
     const db = client.db(dbName);
     db.listCollections({ name: "users" }).next(function (err, colinfo) {
         if (!colinfo) {
@@ -24,7 +24,6 @@ async function init() {
             createCapsules(db,client)
         }else{
             console.log("capsules exist")
-            client.close()
         }
     })
 }
@@ -34,7 +33,7 @@ async function createUsers(db) {
         {
             validator: {
                 $jsonSchema: {
-                    required: ["name", "password", "gender", "mateId", "pictureURL"],
+                    required: ["email","name", "password", "gender"],
                     properties: {
                         name: {
                             bsonType: "string",
@@ -52,8 +51,11 @@ async function createUsers(db) {
         }, function (err, res) {
             if (err) throw err;
             console.log("Created users successful")
-            console.log(res)
         })
+    await db.collection("users").createIndex({"email":1},{unique:true},function(err, res){
+        if (err) throw err;
+            console.log("Created index")
+    })
 }
 
 async function createCapsules(db) {
@@ -85,10 +87,8 @@ async function createCapsules(db) {
         }, function (err, res) {
             if (err) throw err;
             console.log("Created capsules successful")
-            console.log(res)
-            client.close()
         })
 }
 
 
-module.exports = init
+module.exports = {init,client}
