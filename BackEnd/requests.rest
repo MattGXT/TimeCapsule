@@ -19,4 +19,17 @@ Content-Type: application/json
 
 ###
 POST http://localhost:3000/check
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjFAcXEuY29tIiwicGFzc3dvcmQiOjEyMzQ1NiwiaWF0IjoxNjMyOTg4ODk5fQ.bouDpbkTN6919ci51R0bj1s-i15PD3os2tgEyQOETLY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjFAcXEuY29tIiwicGFzc3dvcmQiOjEyMzQ1NiwiaWF0IjoxNjMzMDY2MTIwfQ.UBGc9oQpNXZbmvp1Ht-twCsDFnQtrutzcL25D1EhRko
+
+###
+POST http://localhost:3000/add
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjFAcXEuY29tIiwicGFzc3dvcmQiOjEyMzQ1NiwiaWF0IjoxNjMzMDY2MTIwfQ.UBGc9oQpNXZbmvp1Ht-twCsDFnQtrutzcL25D1EhRko
+Content-Type: application/json
+
+{
+    "ownerId":{"$oid":"61569c7ea6801231e7796885"},
+    "receiverId":{"$oid":"61569c7ea6801231e7796885"},
+    "content":"I love you",
+    "createdAt":{"$date": "2014-01-22T14:56:59.301Z"},
+    "availableAt":"20211001" 
+}

@@ -9,7 +9,7 @@ module.exports.signUp = async function (req, res) {
     const email = req.body.email
     const query = await db.collection("users").findOne({"email":email})
     if (query){
-        return res.sendStatus(406)
+        return res.Status(406).send("Email existed")
     }
     const user = {"email":email,"name":req.body.name,"password":req.body.password,"gender":req.body.gender}
     db.collection("users").insertOne(user,function(err,id){

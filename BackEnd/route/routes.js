@@ -1,11 +1,13 @@
 var express = require('express')
 var userController = require('../controller/User')
+var capsuleController = require('../controller/Capsule')
 var router = express.Router();
 const jwt = require('jsonwebtoken')
 
 router.post('/login', userController.login);
 router.post('/signup', userController.signUp);
 router.post('/check', authenticateToken, userController.check);
+router.post('/add', authenticateToken, capsuleController.add);
 
 function authenticateToken(req,res,next){
     const authHeader = req.headers['authorization']

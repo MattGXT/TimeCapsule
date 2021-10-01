@@ -66,20 +66,20 @@ async function createCapsules(db) {
                     required: ["ownerId", "receiverId", "content", "createdAt", "availableAt"],
                     properties: {
                         ownerId: {
-                            bsonType: "int",
-                            description: "must be a integer and is required"
+                            bsonType: "objectId",
+                            description: "must be a objectId and is required"
                         },
                         receiverId: {
-                            bsonType: "int",
-                            description: "must be an integer and is required"
+                            bsonType: "objectId",
+                            description: "must be an objectId and is required"
                         },
                         createdAt: {
                             bsonType: "date",
                             description: "must be an date and is required"
                         },
                         availableAt: {
-                            bsonType: "date",
-                            description: "must be an date and is required"
+                            bsonType: "string",
+                            description: "must be an string and is required"
                         },
                     }
                 }
