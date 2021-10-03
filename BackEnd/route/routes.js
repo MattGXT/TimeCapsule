@@ -8,6 +8,7 @@ router.post('/login', userController.login);
 router.post('/signup', userController.signUp);
 router.post('/check', authenticateToken, userController.check);
 router.post('/add', authenticateToken, capsuleController.add);
+router.post('/notify', authenticateToken, capsuleController.find);
 
 function authenticateToken(req,res,next){
     const authHeader = req.headers['authorization']
