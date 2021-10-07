@@ -31,6 +31,14 @@ module.exports.login = async function (req, res) {
     }
 }
 
-module.exports.check = function (req, res) {
-    res.send("HELLLLLLLLLO")
+module.exports.edit = async function (req, res) {
+    const email = req.body.email
+    const user = {"email":email}
+    const newUser = {$set: {"email":email,"name":req.body.name,"password":req.body.password,"gender":req.body.gender}}
+    const result = await db.collection("users").updateOne(user,newUser)
+    if (result){
+        return res.send("successful")
+    }else{
+        return res.sendStatus(401)
+    }
 }

@@ -35,7 +35,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/notify
+POST http://localhost:3000/get
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjFAcXEuY29tIiwicGFzc3dvcmQiOjEyMzQ1NiwiaWF0IjoxNjMzMjU5NzE4fQ.NrscTerfz7aSonhuCD01HNyc0uIumKeEsCw8Pwofd6M
 Content-Type: application/json
 

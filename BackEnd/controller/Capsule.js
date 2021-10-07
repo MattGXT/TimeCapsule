@@ -23,6 +23,13 @@ module.exports.add = function (req, res) {
 }
 
 module.exports.find = async function (req, res) {
+    const receiverId = new ObjectId(req.body.receiverId.$oid)
+    const cursor = db.collection("capsules").find({"receiverId":receiverId})
+    const result = await cursor.toArray()
+    res.send(result)
+}
+
+module.exports.findToday = async function (req, res) {
     const dateText = req.body.time
     const receiverId = new ObjectId(req.body.receiverId.$oid)
     const cursor = db.collection("capsules").find({"receiverId":receiverId,"availableAt":dateText})
