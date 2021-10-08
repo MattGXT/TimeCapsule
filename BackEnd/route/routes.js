@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 
 router.post('/login', userController.login);
 router.post('/signup', userController.signUp);
+router.get('/check', authenticateToken, userController.check);
 router.post('/add', authenticateToken, capsuleController.add);
 router.post('/get', authenticateToken, capsuleController.find);
 router.post('/notify', authenticateToken, capsuleController.findToday);

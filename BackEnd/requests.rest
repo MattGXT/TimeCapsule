@@ -2,9 +2,9 @@ POST http://localhost:3000/signup
 Content-Type: application/json
 
 {
-    "email":"1@qq.com",
+    "email":"2@qq.com",
     "name":"Matt",
-    "password":123456,
+    "password":"123456",
     "gender":1
 }
 
@@ -13,8 +13,8 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email":"1@qq.com",
-    "password":123456
+    "email":"2@qq.com",
+    "password":"123456"
 }
 
 ###
@@ -43,3 +43,7 @@ Content-Type: application/json
     "receiverId":{"$oid":"61569c7ea6801231e7796885"},
     "time":"20211001" 
 }
+
+###
+GET http://localhost:3000/check
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjJAcXEuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJpYXQiOjE2MzM2OTIzMzB9.S37JTguQd5ydkQRIwaDHEA3HoD5kkwVP_8Ba1XXVxpA

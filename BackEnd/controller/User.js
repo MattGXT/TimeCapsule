@@ -42,3 +42,7 @@ module.exports.edit = async function (req, res) {
         return res.sendStatus(401)
     }
 }
+
+module.exports.check = function(req,res){
+    return res.send('Available')
+}
