@@ -47,7 +47,6 @@ export default {
             if (res.status === 200) {
               const token = res.data.accessToken
               localStorage.setItem('token',token)
-              localStorage.setItem('email',this.email)
               this.setToken(token)
             }
           })

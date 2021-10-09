@@ -2,10 +2,10 @@ POST http://localhost:3000/signup
 Content-Type: application/json
 
 {
-    "email":"2@qq.com",
-    "name":"Matt",
+    "email":"1@qq.com",
+    "name":"GF",
     "password":"123456",
-    "gender":1
+    "gender":0
 }
 
 ###
@@ -47,3 +47,29 @@ Content-Type: application/json
 ###
 GET http://localhost:3000/check
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjJAcXEuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJpYXQiOjE2MzM2OTIzMzB9.S37JTguQd5ydkQRIwaDHEA3HoD5kkwVP_8Ba1XXVxpA
+
+###
+POST http://localhost:3000/create-request
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjFAcXEuY29tIiwiX2lkIjoiNjE2MTI4YzMxMTMyMWQwNmUyYTIzZWEwIiwiaWF0IjoxNjMzNzU3NzIyfQ.wPKuYN2BkixiP_PwlTP61ucV_487N__PZt0Kf7JM_Bs
+Content-Type: application/json
+
+{
+    "targetEmail":"2@qq.com"
+}
+
+###
+GET http://localhost:3000/get-request
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjJAcXEuY29tIiwiX2lkIjoiNjE1ZWQ5OGNmYmM3MmM2NDNhNTg0NmMyIiwiaWF0IjoxNjMzNzU4OTkwfQ.fE9Vw1vpcMww6mEQpc0C0ZrL3Xv3bxYUPGKXy4KT89A
+
+###
+POST http://localhost:3000/approve-request
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjJAcXEuY29tIiwiX2lkIjoiNjE1ZWQ5OGNmYmM3MmM2NDNhNTg0NmMyIiwiaWF0IjoxNjMzNzU4OTkwfQ.fE9Vw1vpcMww6mEQpc0C0ZrL3Xv3bxYUPGKXy4KT89A
+Content-Type: application/json
+
+{
+    "_id":{"$oid":"61613683bcf587a977a59f07"}
+}
+
+###
+GET http://localhost:3000/remove-mate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjJAcXEuY29tIiwiX2lkIjoiNjE1ZWQ5OGNmYmM3MmM2NDNhNTg0NmMyIiwiaWF0IjoxNjMzNzU4OTkwfQ.fE9Vw1vpcMww6mEQpc0C0ZrL3Xv3bxYUPGKXy4KT89A

@@ -1,15 +1,20 @@
 var express = require('express')
 var userController = require('../controller/User')
 var capsuleController = require('../controller/Capsule')
+var requestController = require('../controller/Request')
 var router = express.Router();
 const jwt = require('jsonwebtoken')
 
 router.post('/login', userController.login);
 router.post('/signup', userController.signUp);
 router.get('/check', authenticateToken, userController.check);
-router.post('/add', authenticateToken, capsuleController.add);
+router.get('/remove-mate', authenticateToken, userController.removeMate);
+router.post('/add', authenticateToken, capsuleController.create);
 router.post('/get', authenticateToken, capsuleController.find);
 router.post('/notify', authenticateToken, capsuleController.findToday);
+router.post('/create-request', authenticateToken, requestController.create);
+router.post('/approve-request', authenticateToken, requestController.approve);
+router.get('/get-request', authenticateToken, requestController.get);
 
 function authenticateToken(req,res,next){
     const authHeader = req.headers['authorization']

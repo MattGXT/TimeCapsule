@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
     state() {
         return {
-            token:window.localStorage.getItem('token')
+            token:window.localStorage.getItem('token'),
+            mateId:window.localStorage.getItem('mateId')
         }
     },
     mutations: {
@@ -12,6 +13,10 @@ export default createStore({
         },
         logout(state) {
             state.token = null
+            state.mateId = null
+        },
+        setMateId(state,Id) {
+            state.mateId = Id
         }
     }
 })

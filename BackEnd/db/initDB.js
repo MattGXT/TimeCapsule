@@ -26,6 +26,14 @@ async function init() {
             console.log("capsules exist")
         }
     })
+
+    db.listCollections({ name: "requests" }).next(function (err, colinfo) {
+        if (!colinfo) {
+            createRequests(db,client)
+        }else{
+            console.log("requests exist")
+        }
+    })
 }
 
 async function createUsers(db) {
@@ -87,6 +95,30 @@ async function createCapsules(db) {
         }, function (err, res) {
             if (err) throw err;
             console.log("Created capsules successful")
+        })
+}
+
+async function createRequests(db) {
+    await db.createCollection('requests',
+        {
+            validator: {
+                $jsonSchema: {
+                    required: ["Id","targetId"],
+                    properties: {
+                        Id: {
+                            bsonType: "objectId",
+                            description: "must be a objectId and is required"
+                        },
+                        targetEmail: {
+                            bsonType: "objectId",
+                            description: "must be a objectId and is required"
+                        }
+                    }
+                }
+            }
+        }, function (err, res) {
+            if (err) throw err;
+            console.log("Created requests successful")
         })
 }
 

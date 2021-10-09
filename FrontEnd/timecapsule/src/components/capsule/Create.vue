@@ -1,17 +1,19 @@
 <template>
   <div class="capsule-container">
     <div>
-      <label>What do you want to say to:</label>
-      <div contenteditable="true" class="content"></div>
-    </div>
-    <div>
+      <label>What do you want to say to:</label><br>
+      <textarea v-model="content" placeholder="What do you want to say now?"></textarea>
       <label>When you want her/him to know?</label><br />
-      <input type="radio" id="one" name="year" value="1" />
+      <input type="radio" id="one" v-model="time" value="0" />
+      <label for="one">半年</label>
+      <input type="radio" id="one" v-model="time" value="1" />
       <label for="one">一年</label>
-      <input type="radio" id="three" name="year" value="3" />
+      <input type="radio" id="three" v-model="time" value="3" />
       <label for="three">三年</label>
-      <input type="radio" id="five" name="year" value="5" />
+      <input type="radio" id="five" v-model="time" value="5" />
       <label for="five">五年</label>
+      <input type="radio" id="five" v-model="time" value="10" />
+      <label for="five">十年</label>
     </div>
     <div>
       <button type="button">埋下</button>
@@ -27,8 +29,8 @@ export default {
   components: {},
   data() {
     return {
-      email: "",
-      password: "",
+      time:"",
+      content:""
     };
   },
 
@@ -46,16 +48,16 @@ export default {
   @include transform(translate(-50%, -50%));
   @include transition(transform 300ms, box-shadow 300ms);
   padding: 1em;
-}
-
-.content {
-  background-color: white;
-  outline: none;
-  width: 100%;
-  height: 100%;
+  text-align:left;
 }
 
 label {
   display: inline-block;
+}
+
+textarea {
+  resize: none;
+  width: 90%;
+  outline: none;
 }
 </style>

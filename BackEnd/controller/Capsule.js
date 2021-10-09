@@ -5,7 +5,7 @@ require('dotenv').config();
 const db = connection.client.db(dbName);
 
 
-module.exports.add = function (req, res) {
+module.exports.create = function (req, res) {
     const ownerId = new ObjectId(req.body.ownerId.$oid)
     const receiverId = new ObjectId(req.body.receiverId.$oid)
     const content = req.body.content
