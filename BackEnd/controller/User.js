@@ -26,7 +26,7 @@ module.exports.login = async function (req, res) {
     const query = await db.collection("users").findOne(user)
     if (query){
         const accessToken = jwt.sign({email:email,_id:query._id},process.env.ACCESS_TOKEN_SECRET)
-        return res.json({"accessToken":accessToken})
+        return res.json({"accessToken":accessToken,"mateId":query.mateId,"name":query.name,"email":query.email})
     }else{
         return res.sendStatus(401)
     }
@@ -71,6 +71,5 @@ module.exports.removeMate = async function(req,res){
 module.exports.check = async function(req,res){
     const id = new ObjectId(req.user._id)
     const query = await db.collection("users").findOne({ "_id": id })
-    console.log(query)
     return res.send({"mateId":query.mateId})
 }

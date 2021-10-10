@@ -22,20 +22,17 @@ POST http://localhost:3000/check
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjFAcXEuY29tIiwicGFzc3dvcmQiOjEyMzQ1NiwiaWF0IjoxNjMzMDY2MTIwfQ.UBGc9oQpNXZbmvp1Ht-twCsDFnQtrutzcL25D1EhRko
 
 ###
-POST http://localhost:3000/add
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjFAcXEuY29tIiwicGFzc3dvcmQiOjEyMzQ1NiwiaWF0IjoxNjMzMjU5NzE4fQ.NrscTerfz7aSonhuCD01HNyc0uIumKeEsCw8Pwofd6M
+POST http://localhost:3000/create-capsule
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjJAcXEuY29tIiwiX2lkIjoiNjE1ZWQ5OGNmYmM3MmM2NDNhNTg0NmMyIiwiaWF0IjoxNjMzODQ1ODY5fQ.jlfjECEH_E2jURwnGOKrZjUm2wZLRGCZ8TtIOjiM8Iw
 Content-Type: application/json
 
 {
-    "ownerId":{"$oid":"61569c7ea6801231e7796885"},
-    "receiverId":{"$oid":"61569c7ea6801231e7796885"},
     "content":"I love you too",
-    "createdAt":{"$date": "2014-01-22T14:56:59.301Z"},
-    "availableAt":"20211001" 
+    "availableAt":0
 }
 
 ###
-POST http://localhost:3000/get
+POST http://localhost:3000/get-capsule
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjFAcXEuY29tIiwicGFzc3dvcmQiOjEyMzQ1NiwiaWF0IjoxNjMzMjU5NzE4fQ.NrscTerfz7aSonhuCD01HNyc0uIumKeEsCw8Pwofd6M
 Content-Type: application/json
 

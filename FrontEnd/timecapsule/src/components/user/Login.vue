@@ -2,11 +2,11 @@
   <div class="container-lg">
     <div class="div-lg">
       <label class="label">Email</label>
-      <input class = "input-lg" v-model="email" />
+      <input class="input-lg" v-model="email" />
     </div>
     <div class="div-lg">
       <label class="label">密码</label>
-      <input class = "input-lg" type="password" v-model="password" />
+      <input class="input-lg" type="password" v-model="password" />
     </div>
     <div class="div-lg">
       <button type="button" @click="login">登录</button>
@@ -15,16 +15,18 @@
 </template>
 
 <script>
-import axios from "axios"
-import { useStore } from 'vuex'
+import axios from "axios";
+import { useStore } from "vuex";
+import { computed } from "vue";
 
 export default {
-  setup () {
-    const store = useStore()
-    return{
-      token: store.state.token,
-      setToken: (token) => store.commit('setToken', token)
-    }
+  setup() {
+    const store = useStore();
+    return {
+      token: computed(() => store.state.token),
+      setToken: (token) => store.commit("setToken", token),
+      setMateId: (mateId) => store.commit("setMateId", mateId),
+    };
   },
   name: "LoginComponent",
   components: {},
@@ -39,21 +41,23 @@ export default {
     login() {
       if (this.email === "" || this.password === "") {
         alert("please!");
-      } else {
-        const user = { email: this.email, password: this.password };
-        axios
-          .post("http://localhost:3000/login", user)
-          .then((res) => {
-            if (res.status === 200) {
-              const token = res.data.accessToken
-              localStorage.setItem('token',token)
-              this.setToken(token)
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          });
+        return;
       }
+      const user = { email: this.email, password: this.password };
+      axios
+        .post("http://localhost:3000/login", user)
+        .then((res) => {
+          if (res.status === 200) {
+            const token = res.data.accessToken;
+            localStorage.setItem("token", token);
+            this.setToken(token);
+            const mateId = res.data.mateId;
+            this.setMateId(mateId);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

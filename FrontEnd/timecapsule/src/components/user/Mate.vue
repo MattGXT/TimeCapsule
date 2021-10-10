@@ -9,12 +9,13 @@
 <script>
 import axios from "axios";
 import { useStore } from "vuex";
+import { computed } from "vue";
 
 export default {
   setup() {
     const store = useStore();
     return {
-      token: store.state.token,
+      token: computed(() => store.state.token),
       setToken: (token) => store.commit("setToken", token),
     };
   },
@@ -30,24 +31,24 @@ export default {
     requestCreate() {
       if (this.email === "") {
         alert("please!");
-      } else {
-        const user = { targetEmail: this.email};
-        axios
-          .post("http://localhost:3000/create-request", user,{
-            headers: {
-              Authorization: `Bearer ${this.token}`,
-            },
-          })
-          .then((res) => {
-            if (res.status === 200) {
-              console.log("Successful");
-            }
-            console.log(res)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        return;
       }
+      const user = { targetEmail: this.email };
+      axios
+        .post("http://localhost:3000/create-request", user, {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("Successful");
+          }
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

@@ -3,7 +3,7 @@
     <UserLogin v-show="token == null"></UserLogin>
     <CapsuleCreate v-show="token !== null && mateId !== null"></CapsuleCreate>
     <RequestCreate v-show="token !== null && mateId == null"></RequestCreate>
-    <RequestGet v-if="token !== null"></RequestGet>
+    <RequestGet v-if="token !== null&& mateId == null"></RequestGet>
     <button type="button" v-show="token !== null" @click="logout">登出</button>
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
         store.commit("logout");
         localStorage.clear();
       },
-      setmateId: (mateId) => store.commit('setmateId', mateId)
+      setMateId: (mateId) => store.commit('setMateId', mateId)
     };
   },
   created() {
@@ -53,7 +53,7 @@ export default {
           .then((res) => {
             if (res.status === 200 && res.data.mateId !== null) {
               localStorage.setItem('mateId',res.data.mateId)
-              this.setmateId(res.data.mateId)
+              this.setMateId(res.data.mateId)
             }
           })
           .catch((error) => {
