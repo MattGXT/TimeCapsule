@@ -4,6 +4,7 @@
     <CapsuleCreate v-show="token !== null && mateId !== null"></CapsuleCreate>
     <RequestCreate v-show="token !== null && mateId == null"></RequestCreate>
     <RequestGet v-if="token !== null&& mateId == null"></RequestGet>
+    <UserSignUp></UserSignUp>
     <button type="button" v-show="token !== null" @click="logout">登出</button>
   </div>
 </template>
@@ -11,6 +12,7 @@
 <script>
 // @ is an alias to /src
 import UserLogin from "../components/user/Login.vue";
+import UserSignUp from "../components/user/Signup.vue";
 import CapsuleCreate from "../components/capsule/Create.vue";
 import RequestCreate from "../components/user/Mate.vue";
 import RequestGet from "../components/request/Request.vue";
@@ -24,7 +26,8 @@ export default {
     UserLogin,
     CapsuleCreate,
     RequestCreate,
-    RequestGet
+    RequestGet,
+    UserSignUp
   },
   setup() {
     const store = useStore();

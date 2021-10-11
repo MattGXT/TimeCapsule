@@ -2,11 +2,14 @@ POST http://localhost:3000/signup
 Content-Type: application/json
 
 {
-    "email":"1@qq.com",
-    "name":"GF",
+    "email":"tianyixingchen@gmail.com",
+    "name":"test",
     "password":"123456",
     "gender":0
 }
+
+###
+GET http://localhost:3000/verify?code=d3144f8bcdee43f2e9f0e84c78caf2da413bd3c8
 
 ###
 POST http://localhost:3000/login
@@ -64,7 +67,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjJAcXEuY
 Content-Type: application/json
 
 {
-    "_id":{"$oid":"61613683bcf587a977a59f07"}
+    "_id":{"$oid":"6163e3e3ef20161e76d17a4e"}
 }
 
 ###

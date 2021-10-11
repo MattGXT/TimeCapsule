@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken')
 router.post('/login', userController.login);
 router.post('/signup', userController.signUp);
 router.get('/check', authenticateToken, userController.check);
+router.get('/verify', userController.verify);
 router.get('/remove-mate', authenticateToken, userController.removeMate);
 router.post('/create-capsule', authenticateToken, capsuleController.create);
 router.get('/get-capsule', authenticateToken, capsuleController.find);

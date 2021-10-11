@@ -34,6 +34,14 @@ async function init() {
             console.log("requests exist")
         }
     })
+
+    db.listCollections({ name: "verify" }).next(function (err, colinfo) {
+        if (!colinfo) {
+            createVerify(db,client)
+        }else{
+            console.log("verify exist")
+        }
+    })
 }
 
 async function createUsers(db) {
@@ -71,7 +79,7 @@ async function createCapsules(db) {
         {
             validator: {
                 $jsonSchema: {
-                    required: ["ownerId", "receiverId", "content", "createdAt", "availableAt"],
+                    required: ["ownerId", "receiverId", "content", "createdAt", "availableAt", "haveRead"],
                     properties: {
                         ownerId: {
                             bsonType: "objectId",
@@ -89,6 +97,12 @@ async function createCapsules(db) {
                             bsonType: "string",
                             description: "must be an string and is required"
                         },
+                        haveRead:{
+                            bsonType: "int",
+                            minimum: 0,
+                            maximum: 1,
+                            description: "must be an integer in [0,1] and is required"
+                        }
                     }
                 }
             }
@@ -119,6 +133,20 @@ async function createRequests(db) {
         }, function (err, res) {
             if (err) throw err;
             console.log("Created requests successful")
+        })
+}
+
+async function createVerify(db) {
+    await db.createCollection('verify',
+        {
+            validator: {
+                $jsonSchema: {
+                    required: ["info","verify"]
+                }
+            }
+        }, function (err, res) {
+            if (err) throw err;
+            console.log("Created verify successful")
         })
 }
 

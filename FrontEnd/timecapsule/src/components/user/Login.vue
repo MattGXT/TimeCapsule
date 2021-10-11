@@ -68,7 +68,7 @@ export default {
   width: 10vw;
   border: 2px solid #fcd1d1;
   border-radius: 10px;
-  box-shadow: 5px 10px 10px rgba($greenSeaweed, 0.2);
+  box-shadow: 5px 10px 10px rgba(greenSeaweed, 0.2);
   background-color: #bce6eb;
   @include transform(translate(-50%, -50%));
   @include transition(transform 300ms, box-shadow 300ms);
