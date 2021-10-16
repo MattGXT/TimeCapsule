@@ -1,15 +1,19 @@
 <template>
   <div class="container-lg">
-    <div class="div-lg">
+    <div>
       <label class="label">Email</label>
-      <input class="input-lg" v-model="email" />
+      <input type="email" v-model="email" />
     </div>
-    <div class="div-lg">
+    <div>
       <label class="label">密码</label>
-      <input class="input-lg" type="password" v-model="password" />
+      <input type="password" v-model="password" />
     </div>
-    <div class="div-lg">
-      <button type="button" @click="login">登录</button>
+    <div>
+      <button type="submit" @click="login">登录</button>
+      <button type="submit" @click="signUp = true">注册</button>
+      <transition name="modal">
+      <UserSignUp v-show="signUp" @close = "signUp = false"></UserSignUp>
+      </transition>
     </div>
   </div>
 </template>
@@ -18,6 +22,7 @@
 import axios from "axios";
 import { useStore } from "vuex";
 import { computed } from "vue";
+import UserSignUp from "./Signup.vue";
 
 export default {
   setup() {
@@ -29,11 +34,12 @@ export default {
     };
   },
   name: "LoginComponent",
-  components: {},
+  components: {UserSignUp},
   data() {
     return {
       email: "",
       password: "",
+      signUp : false
     };
   },
 
@@ -65,23 +71,13 @@ export default {
 
 <style>
 .container-lg {
-  width: 10vw;
-  border: 2px solid #fcd1d1;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #F38BA0;
   border-radius: 10px;
   box-shadow: 5px 10px 10px rgba(greenSeaweed, 0.2);
-  background-color: #bce6eb;
-  @include transform(translate(-50%, -50%));
-  @include transition(transform 300ms, box-shadow 300ms);
+  background-color: #FFBCBC;
   padding: 1em;
-}
-
-.input-lg {
-  border: none;
-  border-radius: 5px;
-  flex: auto;
-  width: 100%;
-  min-width: 0;
-  outline: none !important;
 }
 
 .label {
@@ -89,8 +85,22 @@ export default {
   padding: 1px 2px;
 }
 
-.div-lg {
+.container-lg > div {
   padding-top: 1em;
   text-align: left;
+}
+
+.container-lg > div > input{
+  border: none;
+  border-radius: 5px;
+  flex: auto;
+  width: 100%;
+  height: 20px;
+  outline-color: #F38BA0;
+  padding: 0;
+}
+
+.container-lg>div:nth-child(3){
+  text-align: center;
 }
 </style>

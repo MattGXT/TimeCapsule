@@ -56,7 +56,7 @@ export default {
 
 <style>
 .container-mate {
-  width: 10vw;
+  width: 100%;
   border: 2px solid #fcd1d1;
   border-radius: 10px;
   box-shadow: 5px 10px 10px rgba(greenSeaweed, 0.2);

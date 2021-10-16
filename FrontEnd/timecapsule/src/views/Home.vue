@@ -4,15 +4,18 @@
     <CapsuleCreate v-show="token !== null && mateId !== null"></CapsuleCreate>
     <RequestCreate v-show="token !== null && mateId == null"></RequestCreate>
     <RequestGet v-if="token !== null&& mateId == null"></RequestGet>
-    <UserSignUp></UserSignUp>
-    <button type="button" v-show="token !== null" @click="logout">登出</button>
+    
+    <div class = "footer">
+      <button type="submit" v-show="token !== null" @click="logout">登出</button>
+    </div>
+    
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import UserLogin from "../components/user/Login.vue";
-import UserSignUp from "../components/user/Signup.vue";
+
 import CapsuleCreate from "../components/capsule/Create.vue";
 import RequestCreate from "../components/user/Mate.vue";
 import RequestGet from "../components/request/Request.vue";
@@ -26,8 +29,7 @@ export default {
     UserLogin,
     CapsuleCreate,
     RequestCreate,
-    RequestGet,
-    UserSignUp
+    RequestGet
   },
   setup() {
     const store = useStore();
@@ -68,3 +70,18 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.home{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.footer{
+  width: 100%;
+}
+</style>

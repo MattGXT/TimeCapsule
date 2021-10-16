@@ -1,21 +1,21 @@
 <template>
-  <div class="capsule-container">
+  <div class="container-capsule">
     <div>
-      <label>What do you want to say?</label><br>
-      <textarea v-model="content" placeholder="What do you want to say now?"></textarea>
-      <label>When you want her/him to know?</label><br />
+      <label>心里在想些什么？</label><br>
+      <textarea v-model="content" placeholder="请告诉我"></textarea>
+      <label>要埋多久呢？</label><br />
       <input type="radio" id="one" v-model="availableAt" value=0 />
-      <label for="one">半年</label>
+      <label for="one">半年</label><br>
       <input type="radio" id="one" v-model="availableAt" value=1 />
-      <label for="one">一年</label>
+      <label for="one">一年</label><br>
       <input type="radio" id="three" v-model="availableAt" value=3 />
-      <label for="three">三年</label>
+      <label for="three">三年</label><br>
       <input type="radio" id="five" v-model="availableAt" value=5 />
-      <label for="five">五年</label>
+      <label for="five">五年</label><br>
       <input type="radio" id="five" v-model="availableAt" value=10 />
       <label for="five">十年</label>
     </div>
-    <div>
+    <div class="footer">
       <button type="button" @click = "create">埋下</button>
     </div>
   </div>
@@ -44,7 +44,7 @@ export default {
 
   methods: {
     create(){
-      if (this.availableAt == null && this.content === ""){
+      if (this.availableAt == null || this.content === ""){
         alert("Please!")
         return
       }
@@ -69,16 +69,17 @@ export default {
 </script>
 
 <style>
-.capsule-container {
-  width: 20vw;
-  border: 2px solid #fcd1d1;
+.container-capsule {
+  width: 60%;
+  border: 2px solid #F38BA0;
   border-radius: 10px;
   box-shadow: 5px 10px 10px rgba(greenSeaweed, 0.2);
-  background-color: #bce6eb;
+  background-color: #FFBCBC;
   @include transform(translate(-50%, -50%));
   @include transition(transform 300ms, box-shadow 300ms);
   padding: 1em;
   text-align:left;
+  margin: 0 auto;
 }
 
 label {
@@ -87,7 +88,12 @@ label {
 
 textarea {
   resize: none;
-  width: 90%;
+  width: 100%;
   outline: none;
+  padding: 0;
+}
+
+.footer{
+  text-align: center;
 }
 </style>

@@ -1,8 +1,4 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
   <router-view></router-view>
 </template>
 
@@ -13,6 +9,9 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background:#B5EAEA;
+  height: 100vh;
+
 }
 
 #nav {
@@ -26,5 +25,26 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+body{
+  margin: 0;
+  padding: 0 10%;
+  min-width: 400px;
+  width: auto !important;
+  width:1000px;
+}
+
+button{
+  border-radius: 10px;
+  width: 100px;
+  padding: 10px;
+  background-color: #EDF6E5;
+  border:2px solid #FFBCBC;
+  cursor: pointer;
+}
+
+button:hover{
+  border:2px solid #F38BA0;
 }
 </style>
