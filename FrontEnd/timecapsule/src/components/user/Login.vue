@@ -8,12 +8,10 @@
       <label class="label">密码</label>
       <input type="password" v-model="password" />
     </div>
-    <div>
-      <button type="submit" @click="login">登录</button>
-      <button type="submit" @click="signUp = true">注册</button>
-      <transition name="modal">
-      <UserSignUp v-show="signUp" @close = "signUp = false"></UserSignUp>
-      </transition>
+    <div class = "isolation">
+      <m-btn type="submit" @click="login">登录</m-btn>
+
+      <m-btn @click="register">注册</m-btn>
     </div>
   </div>
 </template>
@@ -22,7 +20,6 @@
 import axios from "axios";
 import { useStore } from "vuex";
 import { computed } from "vue";
-import UserSignUp from "./Signup.vue";
 
 export default {
   setup() {
@@ -34,12 +31,11 @@ export default {
     };
   },
   name: "LoginComponent",
-  components: {UserSignUp},
+  components: {},
   data() {
     return {
       email: "",
-      password: "",
-      signUp : false
+      password: ""
     };
   },
 
@@ -65,6 +61,9 @@ export default {
           console.log(error);
         });
     },
+    register(){
+        this.$router.push('/register')
+    }
   },
 };
 </script>
@@ -73,10 +72,10 @@ export default {
 .container-lg {
   display: flex;
   flex-direction: column;
-  border: 2px solid #F38BA0;
+  justify-content: center;
+  align-items: center;
   border-radius: 10px;
   box-shadow: 5px 10px 10px rgba(greenSeaweed, 0.2);
-  background-color: #FFBCBC;
   padding: 1em;
 }
 
@@ -101,6 +100,11 @@ export default {
 }
 
 .container-lg>div:nth-child(3){
+  text-align: center;
+}
+
+.isolation{
+  isolation: isolate;
   text-align: center;
 }
 </style>

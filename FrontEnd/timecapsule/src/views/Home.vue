@@ -1,20 +1,20 @@
 <template>
   <div class="home">
-    <UserLogin v-show="token == null"></UserLogin>
+    <!--UserLogin v-show="token == null"></UserLogin-->
     <CapsuleCreate v-show="token !== null && mateId !== null"></CapsuleCreate>
     <RequestCreate v-show="token !== null && mateId == null"></RequestCreate>
-    <RequestGet v-if="token !== null&& mateId == null"></RequestGet>
-    
-    <div class = "footer">
-      <button type="submit" v-show="token !== null" @click="logout">登出</button>
+    <RequestGet v-if="token !== null && mateId == null"></RequestGet>
+    <div class="footer">
+      <button type="submit" v-show="token !== null" @click="logout">
+        登出
+      </button>
     </div>
-    
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import UserLogin from "../components/user/Login.vue";
+//import UserLogin from "../components/user/Login.vue";
 
 import CapsuleCreate from "../components/capsule/Create.vue";
 import RequestCreate from "../components/user/Mate.vue";
@@ -26,10 +26,10 @@ import axios from "axios";
 export default {
   name: "Home",
   components: {
-    UserLogin,
+    //UserLogin,
     CapsuleCreate,
     RequestCreate,
-    RequestGet
+    RequestGet,
   },
   setup() {
     const store = useStore();
@@ -40,13 +40,13 @@ export default {
         store.commit("logout");
         localStorage.clear();
       },
-      setMateId: (mateId) => store.commit('setMateId', mateId)
+      setMateId: (mateId) => store.commit("setMateId", mateId),
     };
   },
   created() {
-    this.tokenValid()
+    this.tokenValid();
   },
-  methods:{
+  methods: {
     tokenValid() {
       if (this.token !== null) {
         axios
@@ -57,8 +57,8 @@ export default {
           })
           .then((res) => {
             if (res.status === 200 && res.data.mateId !== null) {
-              localStorage.setItem('mateId',res.data.mateId)
-              this.setMateId(res.data.mateId)
+              localStorage.setItem("mateId", res.data.mateId);
+              this.setMateId(res.data.mateId);
             }
           })
           .catch((error) => {
@@ -72,16 +72,17 @@ export default {
 </script>
 
 <style scoped>
-.home{
+.home {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   height: 100%;
+  transform: rotateX(20deg);
 }
 
-.footer{
+.footer {
   width: 100%;
 }
 </style>

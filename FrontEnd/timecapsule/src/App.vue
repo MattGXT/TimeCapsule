@@ -1,5 +1,9 @@
 <template>
-  <router-view></router-view>
+  <router-view v-slot="{ Component }">
+    <transition name="fade" mode="out-in">
+      <component :is="Component" />
+    </transition>
+  </router-view>
 </template>
 
 <style>
@@ -9,9 +13,13 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background:#B5EAEA;
+  background: #b5eaea;
   height: 100vh;
-
+  perspective: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #nav {
@@ -27,24 +35,22 @@
   color: #42b983;
 }
 
-body{
+body {
   margin: 0;
-  padding: 0 10%;
+  padding: 0;
   min-width: 400px;
   width: auto !important;
-  width:1000px;
+  width: 1000px;
 }
 
-button{
-  border-radius: 10px;
-  width: 100px;
-  padding: 10px;
-  background-color: #EDF6E5;
-  border:2px solid #FFBCBC;
-  cursor: pointer;
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(2em);
 }
 
-button:hover{
-  border:2px solid #F38BA0;
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
 }
 </style>
