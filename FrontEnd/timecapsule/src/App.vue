@@ -1,25 +1,64 @@
 <template>
-  <router-view v-slot="{ Component }">
-    <transition name="fade" mode="out-in">
-      <component :is="Component" />
-    </transition>
-  </router-view>
+  <nav>
+    <router-link to='/'>Home</router-link> |
+    <button @click="logout">Logout</button>
+  </nav>
+  <main>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+  </main>
 </template>
+
+<script>
+import { useStore } from "vuex";
+import { computed } from "vue";
+
+export default {
+  name: "Home",
+  setup() {
+    const store = useStore();
+    return {
+      token: computed(() => store.state.token),
+      mateId: computed(() => store.state.mateId),
+      storeLogout: () => {
+        store.commit("logout");
+        localStorage.clear();
+      },
+      setMateId: (mateId) => store.commit("setMateId", mateId),
+    };
+  },
+  methods:{
+    logout(){
+      this.storeLogout()
+      this.$router.push('/login')
+    }
+  }
+}
+</script>
+
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background: #b5eaea;
-  height: 100vh;
-  perspective: 500px;
+  background: #ffffff;
+  font-size: 15px;
+}
+
+nav{
+  height: 56px;
+  background:#A1EAFB;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+}
+
+main{
 }
 
 #nav {

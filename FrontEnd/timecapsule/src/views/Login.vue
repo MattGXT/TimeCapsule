@@ -25,12 +25,8 @@ export default {
 
 <style>
 .login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  transform: rotateX(10deg);
+
+  margin: 0 auto;
 }
 
 </style>

@@ -1,17 +1,16 @@
 <template>
   <div class="container-lg">
-    <div>
-      <label class="label">Email</label>
-      <input type="email" v-model="email" />
+    <div class="input-lg">
+      <m-input type="email" v-model="email" :hint="'Email'" />
     </div>
-    <div>
-      <label class="label">密码</label>
-      <input type="password" v-model="password" />
+    <div class="input-lg">
+      <m-input type="password" v-model="password" :hint="'密码'" />
     </div>
-    <div class = "isolation">
-      <m-btn type="submit" @click="login">登录</m-btn>
-
-      <m-btn @click="register">注册</m-btn>
+    <div class="perspective">
+      <div class="isolation">
+        <m-btn @click="register">注册</m-btn>
+        <m-btn type="submit" @click="login">登录</m-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -55,15 +54,16 @@ export default {
             this.setToken(token);
             const mateId = res.data.mateId;
             this.setMateId(mateId);
+            this.$router.push("/");
           }
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    register(){
-        this.$router.push('/register')
-    }
+    register() {
+      this.$router.push("/register");
+    },
   },
 };
 </script>
@@ -74,14 +74,12 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
-  box-shadow: 5px 10px 10px rgba(greenSeaweed, 0.2);
   padding: 1em;
+  margin: 0 auto;
 }
 
-.label {
-  text-align: left;
-  padding: 1px 2px;
+.input-lg {
+  width: 20rem;
 }
 
 .container-lg > div {
@@ -89,22 +87,17 @@ export default {
   text-align: left;
 }
 
-.container-lg > div > input{
-  border: none;
-  border-radius: 5px;
-  flex: auto;
-  width: 100%;
-  height: 20px;
-  outline-color: #F38BA0;
-  padding: 0;
-}
-
-.container-lg>div:nth-child(3){
+.container-lg > div:nth-child(3) {
   text-align: center;
 }
 
-.isolation{
+.isolation {
   isolation: isolate;
   text-align: center;
+  transform: rotateX(10deg);
+}
+
+.perspective {
+  perspective: 500px;
 }
 </style>

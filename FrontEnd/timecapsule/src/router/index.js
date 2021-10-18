@@ -26,7 +26,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
   {
-    path: '/Register',
+    path: '/register',
     name: 'Register',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -47,7 +47,12 @@ router.beforeEach((to, from, next) => {
       // You can use store variable here to access globalError or commit mutation 
       next("/Login")
   } else {
+    if(to.matched.some(record => record.name ==="Login") && store.state.token !== null){
+      next("/")
+    }else{
       next()
+    }
+      
   }
 })
 

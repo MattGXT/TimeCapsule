@@ -1,6 +1,6 @@
 <template>
   <div class="">
-      <UserSignUp v-show="signUp" @close = "signUp = false"></UserSignUp>
+      <UserSignUp></UserSignUp>
   </div>
 </template>
 
@@ -15,7 +15,6 @@ export default {
   },
   data() {
     return {
-      signUp : true
     };
   },
   created() {
@@ -30,4 +29,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

@@ -1,33 +1,40 @@
-<template type="text/x-template" id="modal-template">
-  <div class="modal-mask">
-    <div class="modal-wrapper" @click="$emit('close')">
-      <div class="modal-container" @click.stop>
+<template>
+  <div class="container-signUp" @click.stop>
+    <div class="input-signUp">
+      <m-input v-model="email" :hint="'Email'" />
+    </div>
+    <div class="input-signUp">
+      <m-input type="password" v-model="password" :hint="'密码'" />
+    </div>
+    <div class="input-signUp">
+      <m-input type="text" v-model="name" :hint="'用户名'" />
+    </div>
 
-        <div class="modal-body">
-          <div>
-            <label class="label">Email</label>
-            <input class="input-lg" v-model="email" />
-          </div>
-          <div>
-            <label class="label">密码</label>
-            <input class="input-lg" type="password" v-model="password" />
-          </div>
-          <div>
-            <label class="label">用户名</label>
-            <input class="input-lg" type="text" v-model="name" />
-          </div>
-          <div>
-            <label class="label">你是？</label><br />
-            <input type="radio" id="zero" v-model="gender" value="0" />
-            <label for="zero">女</label><br>
-            <input type="radio" id="one" v-model="gender" value="1" />
-            <label for="one">男</label>
-          </div>
-          <div>
-            <button type="button" @click="register">注册</button>
-          </div>
-        </div>
-      </div>
+    <div class="input-signUp">
+      <label for="female">
+        <input class = "gender" type="radio" id="female" v-model="gender" value="0" checked/>
+        <svg
+          class="female"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12,4A6,6 0 0,1 18,10C18,12.97 15.84,15.44 13,15.92V18H15V20H13V22H11V20H9V18H11V15.92C8.16,15.44 6,12.97 6,10A6,6 0 0,1 12,4M12,6A4,4 0 0,0 8,10A4,4 0 0,0 12,14A4,4 0 0,0 16,10A4,4 0 0,0 12,6Z"
+          ></path>
+        </svg>
+      </label>
+      <label for="male">
+        <input class = "gender" type="radio" id="male" v-model="gender" value="1" />
+      <svg class="male" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          d="M9,9C10.29,9 11.5,9.41 12.47,10.11L17.58,5H13V3H21V11H19V6.41L13.89,11.5C14.59,12.5 15,13.7 15,15A6,6 0 0,1 9,21A6,6 0 0,1 3,15A6,6 0 0,1 9,9M9,11A4,4 0 0,0 5,15A4,4 0 0,0 9,19A4,4 0 0,0 13,15A4,4 0 0,0 9,11Z"
+        ></path>
+      </svg>
+      </label>
+      
+    </div>
+    <div class="isolation">
+      <m-btn type="button" @click="register">注册</m-btn>
     </div>
   </div>
 </template>
@@ -44,12 +51,14 @@ export default {
       password: "",
       name: "",
       gender: null,
+      publicPath: process.env.BASE_URL,
     };
   },
 
   methods: {
     register() {
-      if (this.email === "" || this.password === "") {
+      console.log(this.gender)
+      if (this.email === "" || this.password === "" || this.gender === null) {
         alert("please!");
         return;
       }
@@ -59,6 +68,7 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             alert("please check your email");
+            console.log(res)
           }
         })
         .catch((error) => {
@@ -70,79 +80,52 @@ export default {
 </script>
 
 <style>
-
-.label {
-  text-align: left;
-  padding: 1px 2px;
+.container-signUp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.modal-body > div:nth-child(-n+4) {
+.isolation {
+  isolation: isolate;
+  text-align: center;
+  transform: rotateX(10deg);
+}
+
+.input-signUp {
+  width: 20rem;
   padding-top: 1em;
-  text-align: left;
 }
 
-.modal-body > div:nth-child(-n+3) > input{
-  border: none;
-  border-radius: 5px;
-  flex: auto;
-  width: 100%;
-  height: 20px;
-  outline-color: #F38BA0;
-  padding: 0;
+.male,.female{
+  width: 3rem;
+  fill: #EEEEEE;
 }
 
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: table;
-  transition: opacity .3s ease;
+.gender {
+	position: absolute;
+	opacity: 0;
 }
 
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
+.gender + svg {
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
 }
 
-.modal-container {
-  background-color: #bce6eb;
-  width: 300px;
-  margin: 0px auto;
-  border: 2px solid #fcd1d1;
-  padding: 20px 30px;
-  border-radius: 2px;
-  transition: all .3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  font-family: Helvetica, Arial, sans-serif;
+.gender + svg {
+	cursor: pointer;
 }
 
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+input[class="gender"][id="male"]:hover + svg[class="male"],
+input[class="gender"][id="male"]:checked + svg[class="male"],
+input[class="gender"][id="male"]:focus + svg[class="male"] {
+	fill: #a1eafb;
 }
 
-.modal-body {
-  margin: 20px 0;
+input[class="gender"][id="female"]:hover + svg[class="female"],
+input[class="gender"][id="female"]:checked + svg[class="female"],
+input[class="gender"][id="female"]:focus + svg[class="female"] {
+	fill: #FFCEF3;
 }
-
-.modal-default-button {
-  display: block;
-  margin-top: 1rem;
-}
-
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-
-
 </style>

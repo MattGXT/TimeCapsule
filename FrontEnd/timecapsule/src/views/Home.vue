@@ -4,18 +4,10 @@
     <CapsuleCreate v-show="token !== null && mateId !== null"></CapsuleCreate>
     <RequestCreate v-show="token !== null && mateId == null"></RequestCreate>
     <RequestGet v-if="token !== null && mateId == null"></RequestGet>
-    <div class="footer">
-      <button type="submit" v-show="token !== null" @click="logout">
-        登出
-      </button>
-    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-//import UserLogin from "../components/user/Login.vue";
-
 import CapsuleCreate from "../components/capsule/Create.vue";
 import RequestCreate from "../components/user/Mate.vue";
 import RequestGet from "../components/request/Request.vue";
@@ -36,10 +28,6 @@ export default {
     return {
       token: computed(() => store.state.token),
       mateId: computed(() => store.state.mateId),
-      logout: () => {
-        store.commit("logout");
-        localStorage.clear();
-      },
       setMateId: (mateId) => store.commit("setMateId", mateId),
     };
   },
@@ -66,7 +54,7 @@ export default {
             localStorage.clear();
           });
       }
-    },
+    }
   },
 };
 </script>
@@ -79,7 +67,6 @@ export default {
   align-items: center;
   justify-content: center;
   height: 100%;
-  transform: rotateX(20deg);
 }
 
 .footer {

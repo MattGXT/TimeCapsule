@@ -1,5 +1,5 @@
 <template>
-  <button @click="handleClick" :disabled="btnDisabled" :type="nativeType">
+  <button :disabled="btnDisabled" :type="nativeType">
     <span v-if="$slots.default"><slot></slot></span>
   </button>
 </template>
@@ -23,9 +23,7 @@ export default {
     
   },
   methods: {
-      handleClick(evt) {
-        this.$emit("click", evt);
-      },
+      
     },
 };
 </script>
@@ -37,15 +35,16 @@ export default {
 button {
   display: block;
   cursor: pointer;
-  background: #ffffff;
-  border: none;
-  margin: 0.5em 0;
-  padding: 0.8em 2.2em;
+  background: #FDFDFD;
+  border: 2px solid #A1EAFB;
+  margin: 0.8em 0;
+  padding: 0.6em 2.4em;
   z-index: 10;
-
+  color: #A1EAFB;
   mix-blend-mode: color-burn;
   font-size: 1.4em;
   font-family: STXihei;
+  font-weight: bold;
   letter-spacing: 0.4em;
 
   border-radius: 0.4em;
@@ -74,25 +73,26 @@ button {
   }
 
   &:after {
-    background-color: #ffbcbc;
+    background-color: #A1EAFB;
   }
 
   &:before {
-    background-color: #edf6e5;
+    background-color: #FFCEF3;
   }
 
   &:hover {
     background-color: #ffffff;
+    border-color: transparent;
     transition: background 0.3s 0.1s;
   }
 
   &:hover:before {
-    --z: 0.05;
+    --z: 0.07;
     animation: translateWobble 2.2s ease forwards;
   }
 
   &:hover:after {
-    --z: -0.06;
+    --z: -0.07;
     animation: translateWobble 2.2s ease forwards;
   }
 
