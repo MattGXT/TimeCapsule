@@ -16,7 +16,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email":"mattgxt@gmail.com",
+    "email":"tianyixingchen@gmail.com",
     "password":"matt1234"
 }
 
@@ -26,23 +26,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRpYW55a
 
 ###
 POST http://localhost:3000/create-capsule
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjJAcXEuY29tIiwiX2lkIjoiNjE1ZWQ5OGNmYmM3MmM2NDNhNTg0NmMyIiwiaWF0IjoxNjMzODQ1ODY5fQ.jlfjECEH_E2jURwnGOKrZjUm2wZLRGCZ8TtIOjiM8Iw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdHRneHRAZ21haWwuY29tIiwiX2lkIjoiNjE2NTY4MjFhOTg0OTc0Y2U0OWY3MWMyIiwiaWF0IjoxNjM0NjIyMTA2fQ.jRGcD-lX0T91OxolE-3OsMAsAum0AGv9bFgiE0YhTyY
 Content-Type: application/json
 
 {
     "content":"I love you too",
-    "availableAt":0
+    "availableAt":1
 }
 
 ###
-POST http://localhost:3000/get-capsule
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjFAcXEuY29tIiwicGFzc3dvcmQiOjEyMzQ1NiwiaWF0IjoxNjMzMjU5NzE4fQ.NrscTerfz7aSonhuCD01HNyc0uIumKeEsCw8Pwofd6M
-Content-Type: application/json
+GET http://localhost:3000/get-capsule
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRpYW55aXhpbmdjaGVuQGdtYWlsLmNvbSIsIl9pZCI6IjYxNjU2N2Y2YTk4NDk3NGNlNDlmNzFjMCIsImlhdCI6MTYzNDYyMjY4Nn0.0GY4SdNWhr7joa3HRpujvbMQLOVf81S1Sic08wdsXBM
 
-{
-    "receiverId":{"$oid":"61569c7ea6801231e7796885"},
-    "time":"20211001" 
-}
 
 ###
 GET http://localhost:3000/check

@@ -111,11 +111,9 @@ export default {
 .gender + svg {
 	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
+  cursor: pointer;
 }
 
-.gender + svg {
-	cursor: pointer;
-}
 
 input[class="gender"][id="male"]:hover + svg[class="male"],
 input[class="gender"][id="male"]:checked + svg[class="male"],

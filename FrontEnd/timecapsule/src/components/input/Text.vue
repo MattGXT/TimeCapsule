@@ -30,6 +30,7 @@ export default {
   },
   computed: {},
   creaded() {
+    console.log(this.value);
   },
   methods: {},
 };
@@ -46,11 +47,13 @@ export default {
   display: block;
   width: 100%;
   border: 3px solid #FFCEF3;
+
   padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
   color: currentColor;
   background: #FDFDFD;
   outline: none;
   border-radius: 4px;
+
 
   &:focus,
   &:not(:placeholder-shown) {
@@ -60,16 +63,6 @@ export default {
     }
   }
 
-  &:after{
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    content: "";
-    width: 100%;
-    height: 100%;
-    background: yellow;
-  }
 }
 
 .input-label {

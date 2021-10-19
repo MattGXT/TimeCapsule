@@ -42,7 +42,7 @@ button {
   z-index: 10;
   color: #A1EAFB;
   mix-blend-mode: color-burn;
-  font-size: 1.4em;
+  font-size: 1.1em;
   font-family: STXihei;
   font-weight: bold;
   letter-spacing: 0.4em;

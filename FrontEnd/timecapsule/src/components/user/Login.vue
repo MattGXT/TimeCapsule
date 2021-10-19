@@ -6,11 +6,10 @@
     <div class="input-lg">
       <m-input type="password" v-model="password" :hint="'密码'" />
     </div>
-    <div class="perspective">
-      <div class="isolation">
-        <m-btn @click="register">注册</m-btn>
-        <m-btn type="submit" @click="login">登录</m-btn>
-      </div>
+
+    <div class="isolation">
+      <m-btn @click="register">注册</m-btn>
+      <m-btn type="submit" @click="login">登录</m-btn>
     </div>
   </div>
 </template>
@@ -34,7 +33,7 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
     };
   },
 
@@ -93,11 +92,6 @@ export default {
 
 .isolation {
   isolation: isolate;
-  text-align: center;
   transform: rotateX(10deg);
-}
-
-.perspective {
-  perspective: 500px;
 }
 </style>

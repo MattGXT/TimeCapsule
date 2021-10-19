@@ -32,7 +32,10 @@ export default {
     };
   },
   created() {
-    this.tokenValid();
+    this.tokenValid();  
+  },
+  activated() {
+    this.tokenValid();  
   },
   methods: {
     tokenValid() {

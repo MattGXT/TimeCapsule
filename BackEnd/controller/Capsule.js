@@ -16,15 +16,15 @@ module.exports.create = async function (req, res) {
     const content = req.body.content
     const createdAt = new Date()
     const period = req.body.availableAt
-    const haveRead = 0
-    let availableTime
+    const isRead = false
+    let availableTime = new Date(createdAt.getFullYear(),createdAt.getMonth(),createdAt.getDate())
     if (period === 0){
-        availableTime  = new Date(createdAt.setMonth(createdAt.getMonth()+6))
+        availableTime.setMonth(availableTime.getMonth()+6)
     }else{
-        availableTime  = new Date(createdAt.setFullYear(createdAt.getFullYear()+period))
+        availableTime.setFullYear(availableTime.getFullYear()+period)
     }
-    const availableAt = availableTime.getFullYear().toString()+availableTime.getMonth().toString()+availableTime.getDate().toString()
-    const capsule = { ownerId, receiverId, content, createdAt, availableAt, haveRead}
+    availableTime.setDate(availableTime.getDate()+1)
+    const capsule = { ownerId, receiverId, content, createdAt, "availableAt":availableTime, isRead}
     db.collection("capsules").insertOne(capsule, function (err, id) {
         if (err) {
             console.log(capsule)
@@ -36,47 +36,36 @@ module.exports.create = async function (req, res) {
 }
 
 module.exports.find = async function (req, res) {
+    const time = new Date()
     const receiverId = new ObjectId(req.user._id)
-    const cursor = db.collection("capsules").find({"receiverId":receiverId})
+    const cursor = db.collection("capsules").find({"receiverId":receiverId,"availableAt":{$lte:time}})
     const result = await cursor.toArray()
     res.send(result)
 }
 
 module.exports.findToday = async function (req, res) {
     const time = new Date()
-    const availableAt = time.getFullYear().toString()+time.getMonth().toString()+time.getDate().toString()
+    const today = new Date(time.getFullYear(),time.getMonth(),time.getDate())
     const receiverId = new ObjectId(req.user._id)
-    const cursor = db.collection("capsules").find({"receiverId":receiverId,"availableAt":availableAt})
+    const cursor = db.collection("capsules").find({"receiverId":receiverId,"availableAt":today})
     const result = await cursor.toArray()
     res.send(result)
-}
-
-module.exports.check = function () {
-    const date = new Date()
-    let day = date.getDate()<10?'0'+date.getDate():date.getDate()
-    const dateText = date.getFullYear().toString()+(date.getMonth()+1).toString()+day
-    db.collection("capsules").find({"availableAt":dateText }, function (err, id) {
-        if (err) {
-            console.log(capsule)
-            console.log(err)
-            return res.sendStatus(406)
-        }
-        return res.send("Capsule added")
-    })
 }
 
 module.exports.findOwn = async function (req, res) {
-    const receiverId = new ObjectId(req.user._id)
-    const cursor = db.collection("capsules").find({"ownerId":receiverId})
+    const ownerId = new ObjectId(req.user._id)
+    const cursor = db.collection("capsules").find({"ownerId":ownerId})
     const result = await cursor.toArray()
     res.send(result)
 }
 
-module.exports.findOwnToday = async function (req, res) {
-    const time = new Date()
-    const availableAt = time.getFullYear().toString()+time.getMonth().toString()+time.getDate().toString()
+module.exports.read = async function (req, res) {
+    const id = req.body._id
     const receiverId = new ObjectId(req.user._id)
-    const cursor = db.collection("capsules").find({"ownerId":receiverId,"availableAt":availableAt})
-    const result = await cursor.toArray()
-    res.send(result)
+    const result = await db.collection("capsules").updateOne({"_id":id,"receiverId":receiverId},{isRead:true})
+    if(result){
+        res.send("Change read state successful")
+    }else{
+        res.sendStatus(403)
+    }
 }

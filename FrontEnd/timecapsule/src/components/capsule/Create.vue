@@ -48,7 +48,7 @@ export default {
         alert("Please!")
         return
       }
-      const data = {"availableAt":this.availableAt,"content": this.content}
+      const data = {"availableAt":parseInt(this.availableAt),"content": this.content}
       axios
         .post("http://localhost:3000/create-capsule",data,{
           headers: {

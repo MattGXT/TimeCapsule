@@ -1,7 +1,19 @@
 <template>
   <nav>
-    <router-link to='/'>Home</router-link> |
-    <button @click="logout">Logout</button>
+    <button @click="home()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          d="M12 20C7.6 20 4 16.4 4 12S7.6 4 12 4 20 7.6 20 12 16.4 20 12 20M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M11 14H13V17H16V12H18L12 7L6 12H8V17H11V14"
+        ></path>
+      </svg>
+    </button>
+    <button class="btn-logout" @click="logout()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          d="M14.08,15.59L16.67,13H7V11H16.67L14.08,8.41L15.5,7L20.5,12L15.5,17L14.08,15.59M19,3A2,2 0 0,1 21,5V9.67L19,7.67V5H5V19H19V16.33L21,14.33V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3H19Z"
+        ></path>
+      </svg>
+    </button>
   </nav>
   <main>
     <router-view v-slot="{ Component }">
@@ -30,17 +42,20 @@ export default {
       setMateId: (mateId) => store.commit("setMateId", mateId),
     };
   },
-  methods:{
-    logout(){
-      this.storeLogout()
-      this.$router.push('/login')
-    }
-  }
-}
+  methods: {
+    logout() {
+      this.storeLogout();
+      this.$router.push("/login");
+    },
+
+    home() {
+      this.$router.push("/");
+    },
+  },
+};
 </script>
 
-
-<style>
+<style lang="scss">
 #app {
   font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -51,14 +66,34 @@ export default {
   font-size: 15px;
 }
 
-nav{
+nav {
   height: 56px;
-  background:#A1EAFB;
+  background: #a1eafb;
   display: flex;
   align-items: center;
+
+  button {
+    background: transparent;
+    border: none;
+    margin: 0 14px;
+    cursor: pointer;
+
+    svg {
+      width: 28px;
+      fill: #fdfdfd;
+    }
+
+    &:hover > svg{
+      fill: #FFCEF3;
+    }
+  }
+
+  button.btn-logout {
+    margin-left: auto;
+  }
 }
 
-main{
+main {
 }
 
 #nav {

@@ -79,11 +79,11 @@ async function createCapsules(db) {
         {
             validator: {
                 $jsonSchema: {
-                    required: ["ownerId", "receiverId", "content", "createdAt", "availableAt", "haveRead"],
+                    required: ["ownerId", "receiverId", "content", "createdAt", "availableAt", "isRead"],
                     properties: {
                         ownerId: {
                             bsonType: "objectId",
-                            description: "must be a objectId and is required"
+                            description: "must be an objectId and is required"
                         },
                         receiverId: {
                             bsonType: "objectId",
@@ -91,17 +91,15 @@ async function createCapsules(db) {
                         },
                         createdAt: {
                             bsonType: "date",
-                            description: "must be an date and is required"
+                            description: "must be a date and is required"
                         },
                         availableAt: {
-                            bsonType: "string",
-                            description: "must be an string and is required"
+                            bsonType: "date",
+                            description: "must be a date and is required"
                         },
-                        haveRead:{
-                            bsonType: "int",
-                            minimum: 0,
-                            maximum: 1,
-                            description: "must be an integer in [0,1] and is required"
+                        isRead:{
+                            bsonType: "bool",
+                            description: "must be an boolean and is required"
                         }
                     }
                 }
