@@ -15,6 +15,7 @@
 <script>
 export default {
   name: "m-input",
+  inheritAttrs: false,
   components: {},
   props: {
     nativeType: {
@@ -23,14 +24,15 @@ export default {
     },
     label: String,
     modelValue: String,
+    error:Boolean,
     hint: {
       type: String,
       default: "",
     },
   },
+  emits: ['update:modelValue'],
   computed: {},
-  creaded() {
-    console.log(this.value);
+  created() {
   },
   methods: {},
 };
@@ -47,6 +49,7 @@ export default {
   display: block;
   width: 100%;
   border: 3px solid #FFCEF3;
+  font-size: 1rem;
 
   padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
   color: currentColor;

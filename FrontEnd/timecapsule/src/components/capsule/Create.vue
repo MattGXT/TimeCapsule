@@ -1,8 +1,7 @@
 <template>
   <div class="container-capsule">
     <div>
-      <label>心里在想些什么？</label><br>
-      <textarea v-model="content" placeholder="请告诉我"></textarea>
+      <m-textarea placeholder="今天想说些什么呢？" v-model="content"></m-textarea>
       <label>要埋多久呢？</label><br />
       <input type="radio" id="one" v-model="availableAt" value=0 />
       <label for="one">半年</label><br>
@@ -70,28 +69,24 @@ export default {
 
 <style>
 .container-capsule {
-  width: 60%;
-  border: 2px solid #F38BA0;
-  border-radius: 10px;
+  width: 60vw;
+  border: 2px solid #A1EAFB;
+  border-radius: 8px;
   box-shadow: 5px 10px 10px rgba(greenSeaweed, 0.2);
-  background-color: #FFBCBC;
+  background-color: #FDFDFD;
   @include transform(translate(-50%, -50%));
   @include transition(transform 300ms, box-shadow 300ms);
   padding: 1em;
+  box-shadow: 0 3px 1px -2px rgb(161 234 251 / 20%), 0 2px 2px 0 rgb(161 234 251 / 14%), 0 1px 5px 0 rgb(161 234 251 / 12%);
   text-align:left;
-  margin: 0 auto;
+  margin: 20px auto 0 auto;
 }
 
 label {
   display: inline-block;
 }
 
-textarea {
-  resize: none;
-  width: 100%;
-  outline: none;
-  padding: 0;
-}
+
 
 .footer{
   text-align: center;

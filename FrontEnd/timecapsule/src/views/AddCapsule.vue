@@ -1,23 +1,19 @@
 <template>
-  <div class="home">
-    <h1>Show some messages here!</h1>
-    <RequestCreate v-show="token !== null && mateId == null"></RequestCreate>
-    <RequestGet v-if="token !== null && mateId == null"></RequestGet>
+  <div class="add-capsule">
+    <CapsuleCreate v-show="token !== null && mateId !== null"></CapsuleCreate>
   </div>
 </template>
 
 <script>
-import RequestCreate from "../components/user/Mate.vue";
-import RequestGet from "../components/request/Request.vue";
+import CapsuleCreate from "../components/capsule/Create.vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
 import axios from "axios";
 
 export default {
-  name: "Home",
+  name: "AddCapsule",
   components: {
-    RequestCreate,
-    RequestGet,
+    CapsuleCreate,
   },
   setup() {
     const store = useStore();
@@ -59,16 +55,4 @@ export default {
 </script>
 
 <style scoped>
-.home {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.footer {
-  width: 100%;
-}
 </style>

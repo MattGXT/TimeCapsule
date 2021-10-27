@@ -1,10 +1,10 @@
 <template>
   <div class="container-lg">
     <div class="input-lg">
-      <m-input type="email" v-model="email" :hint="'Email'" />
+      <m-input type="email" v-model="email" :hint="'Email'" @keyup.enter="login"/>
     </div>
     <div class="input-lg">
-      <m-input type="password" v-model="password" :hint="'密码'" />
+      <m-input type="password" v-model="password" :hint="'密码'" @keyup.enter="login"/>
     </div>
 
     <div class="isolation">

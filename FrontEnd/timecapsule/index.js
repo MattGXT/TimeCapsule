@@ -1,9 +1,11 @@
 import mbtn from './src/components/button/Default'
 import minput from './src/components/input/Text'
+import mtextarea from './src/components/input/Textarea'
 
 const components = [
     mbtn,
-    minput
+    minput,
+    mtextarea
 ]
 
 const install = function(app){

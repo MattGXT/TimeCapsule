@@ -7,7 +7,7 @@
       <m-input type="password" v-model="password" :hint="'密码'" />
     </div>
     <div class="input-signUp">
-      <m-input type="text" v-model="name" :hint="'用户名'" />
+      <m-input type="text" v-model="name" :hint="'用户名'" @keyup.enter="register"/>
     </div>
 
     <div class="input-signUp">
@@ -57,7 +57,6 @@ export default {
 
   methods: {
     register() {
-      console.log(this.gender)
       if (this.email === "" || this.password === "" || this.gender === null) {
         alert("please!");
         return;
