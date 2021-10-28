@@ -43,7 +43,7 @@ export default {
         alert("please!");
         return;
       }
-      const user = { email: this.email, password: this.password };
+      const user = { email: this.email.toLowerCase() , password: this.password };
       axios
         .post("http://localhost:3000/login", user)
         .then((res) => {
@@ -53,6 +53,10 @@ export default {
             this.setToken(token);
             const mateId = res.data.mateId;
             this.setMateId(mateId);
+            const name = res.data.name;
+            localStorage.setItem("name",name);
+            const email = res.data.email;
+            localStorage.setItem("email",email);
             this.$router.push("/");
           }
         })
@@ -73,7 +77,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1em;
+  padding: 2em;
   margin: 0 auto;
 }
 

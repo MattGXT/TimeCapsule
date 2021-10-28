@@ -34,13 +34,22 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Register.vue')
   },
   {
-    path: '/capsule',
+    path: '/capsule/add',
     name: 'Capsule',
     meta: { requiresLogin: true },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AddCapsule.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/CapsuleAdd.vue')
+  },
+  {
+    path: '/capsule/own',
+    name: 'CapsuleOwn',
+    meta: { requiresLogin: true },
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/CapsuleSend.vue')
   }
 ]
 

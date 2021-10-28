@@ -1,11 +1,15 @@
 <template>
   <div class="add-capsule">
     <CapsuleCreate v-show="token !== null && mateId !== null"></CapsuleCreate>
+    <RequestCreate v-show="token !== null && mateId == null"></RequestCreate>
+    <RequestGet v-if="token !== null && mateId == null"></RequestGet>
   </div>
 </template>
 
 <script>
 import CapsuleCreate from "../components/capsule/Create.vue";
+import RequestCreate from "../components/user/Mate.vue";
+import RequestGet from "../components/request/Request.vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
 import axios from "axios";
@@ -14,6 +18,8 @@ export default {
   name: "AddCapsule",
   components: {
     CapsuleCreate,
+    RequestCreate,
+    RequestGet,
   },
   setup() {
     const store = useStore();

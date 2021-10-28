@@ -1,14 +1,11 @@
 <template>
   <div class="home">
-    <h1>Show some messages here!</h1>
-    <RequestCreate v-show="token !== null && mateId == null"></RequestCreate>
-    <RequestGet v-if="token !== null && mateId == null"></RequestGet>
+    <CapsuleList :lists = capsule></CapsuleList>
   </div>
 </template>
 
 <script>
-import RequestCreate from "../components/user/Mate.vue";
-import RequestGet from "../components/request/Request.vue";
+import CapsuleList from "../components/capsule/List.vue"
 import { useStore } from "vuex";
 import { computed } from "vue";
 import axios from "axios";
@@ -16,8 +13,7 @@ import axios from "axios";
 export default {
   name: "Home",
   components: {
-    RequestCreate,
-    RequestGet,
+    CapsuleList
   },
   setup() {
     const store = useStore();
@@ -27,16 +23,24 @@ export default {
       setMateId: (mateId) => store.commit("setMateId", mateId),
     };
   },
-  created() {
-    this.tokenValid();  
+  data(){
+    return{
+      capsule: [],
+    }
   },
-  activated() {
-    this.tokenValid();  
+  async created() {
+    await this.tokenValid();  
+    await this.getCapsule();
+  },
+  async activated() {
+    await this.tokenValid();
+    await this.getCapsule();
+    
   },
   methods: {
-    tokenValid() {
+    async tokenValid() {
       if (this.token !== null) {
-        axios
+        return axios
           .get("http://localhost:3000/check", {
             headers: {
               Authorization: `Bearer ${this.token}`,
@@ -53,7 +57,24 @@ export default {
             localStorage.clear();
           });
       }
-    }
+    },
+
+    async getCapsule() {
+      return axios
+        .get("http://localhost:3000/get-capsule", {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            this.capsule = res.data
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>

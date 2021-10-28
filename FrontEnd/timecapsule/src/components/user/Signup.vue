@@ -61,7 +61,7 @@ export default {
         alert("please!");
         return;
       }
-      const user = { email: this.email, password: this.password };
+      const user = { email: this.email.toLowerCase(), password: this.password };
       axios
         .post("http://localhost:3000/signup", user)
         .then((res) => {
