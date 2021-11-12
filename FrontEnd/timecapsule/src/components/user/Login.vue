@@ -40,7 +40,7 @@ export default {
   methods: {
     login() {
       if (this.email === "" || this.password === "") {
-        alert("please!");
+        this.$emit("alert","请输入正确的格式")
         return;
       }
       const user = { email: this.email.toLowerCase() , password: this.password };

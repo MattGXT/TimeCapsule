@@ -43,12 +43,13 @@
     </div>
   </nav>
   <main>
-    <router-view v-slot="{ Component }">
+    <router-view v-slot="{ Component }" v-on:alert="showAlert">
       <transition name="fade" mode="out-in">
         <component :is="Component" />
       </transition>
     </router-view>
   </main>
+  <m-alert :description = description v-model = alertDisplay></m-alert>
 </template>
 
 <script>
@@ -62,12 +63,19 @@ export default {
     return {
       token: computed(() => store.state.token),
       mateId: computed(() => store.state.mateId),
+
       storeLogout: () => {
         store.commit("logout");
         localStorage.clear();
       },
       setMateId: (mateId) => store.commit("setMateId", mateId),
     };
+  },
+  data(){
+    return{
+      description: "",
+      alertDisplay: false
+    }
   },
   methods: {
     logout() {
@@ -86,6 +94,11 @@ export default {
     sendBox() {
       this.$router.push("/capsule/own");
     },
+
+    showAlert(text){
+      this.description = text
+      this.alertDisplay = true
+    }
 
   },
 };
@@ -161,7 +174,7 @@ body {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
-  transform: translateX(2em);
+  
 }
 
 .fade-enter-active,

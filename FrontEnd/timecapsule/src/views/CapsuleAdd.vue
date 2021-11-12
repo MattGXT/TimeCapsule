@@ -1,6 +1,6 @@
 <template>
   <div class="add-capsule">
-    <CapsuleCreate v-show="token !== null && mateId !== null"></CapsuleCreate>
+    <CapsuleCreate v-show="token !== null && mateId !== null" v-bind="$attrs"></CapsuleCreate>
     <RequestCreate v-show="token !== null && mateId == null"></RequestCreate>
     <RequestGet v-if="token !== null && mateId == null"></RequestGet>
   </div>

@@ -44,7 +44,7 @@ export default {
   methods: {
     create(){
       if (this.availableAt == null || this.content === ""){
-        alert("Please!")
+        this.$emit("alert","请注意！")
         return
       }
       const data = {"availableAt":parseInt(this.availableAt),"content": this.content}

@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <UserLogin></UserLogin>
+    <UserLogin v-bind="$attrs"></UserLogin>
   </div>
 </template>
 
