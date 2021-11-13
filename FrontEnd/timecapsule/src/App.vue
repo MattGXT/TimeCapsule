@@ -1,7 +1,9 @@
 <template>
   <nav>
     <div class="start">
-      <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,7V9H11V17H13V9H15V7H9Z"></path></svg>
+      <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M9,7V9H11V17H13V9H15V7H9Z"></path>
+      </svg>
     </div>
     <div class="middle">
       <ul>
@@ -49,7 +51,7 @@
       </transition>
     </router-view>
   </main>
-  <m-alert :description = description v-model = alertDisplay></m-alert>
+  <m-alert :description="description" v-model="alertDisplay"></m-alert>
 </template>
 
 <script>
@@ -71,11 +73,11 @@ export default {
       setMateId: (mateId) => store.commit("setMateId", mateId),
     };
   },
-  data(){
-    return{
+  data() {
+    return {
       description: "",
-      alertDisplay: false
-    }
+      alertDisplay: false,
+    };
   },
   methods: {
     logout() {
@@ -95,11 +97,10 @@ export default {
       this.$router.push("/capsule/own");
     },
 
-    showAlert(text){
-      this.description = text
-      this.alertDisplay = true
-    }
-
+    showAlert(text) {
+      this.description = text;
+      this.alertDisplay = true;
+    },
   },
 };
 </script>
@@ -121,9 +122,8 @@ nav {
   display: flex;
   align-items: center;
   div {
-    flex:1;
+    flex: 1;
     display: flex;
-    
 
     button {
       background: transparent;
@@ -148,6 +148,12 @@ nav {
 }
 
 main {
+  background-image: url("~@/assets/bg-empty.png");
+  background-color: #a1eafb;
+  height: calc(100vh - 56px);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 #nav {
@@ -174,7 +180,6 @@ body {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
-  
 }
 
 .fade-enter-active,
@@ -190,7 +195,7 @@ ul {
   padding: 0;
 }
 
-.logo{
+.logo {
   z-index: 1;
   height: 50px;
   margin-left: 10px;

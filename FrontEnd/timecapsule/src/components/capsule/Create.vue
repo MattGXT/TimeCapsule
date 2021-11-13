@@ -69,15 +69,14 @@ export default {
 
 <style>
 .container-capsule {
-  width: 60vw;
   border: 2px solid #A1EAFB;
   border-radius: 8px;
   box-shadow: 5px 10px 10px rgba(greenSeaweed, 0.2);
   background-color: #FDFDFD;
   padding: 1em;
-  box-shadow: 0 3px 1px -2px rgb(161 234 251 / 20%), 0 2px 2px 0 rgb(161 234 251 / 14%), 0 1px 5px 0 rgb(161 234 251 / 12%);
+  box-shadow: 0 3px 1px -2px rgba(161, 234, 251, 0.2), 0 2px 2px 0 rgba(161, 234, 251, 0.14),
+    0 1px 5px 0 rgba(161, 234, 251, 0.12) !important;
   text-align:left;
-  margin: 20px auto 0 auto;
 }
 
 label {

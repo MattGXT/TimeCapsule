@@ -60,8 +60,8 @@ export default {
             this.$router.push("/");
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$emit("alert","用户名/密码错误")
         });
     },
     register() {
