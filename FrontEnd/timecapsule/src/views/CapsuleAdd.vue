@@ -1,5 +1,5 @@
 <template>
-  <div class="add-capsule">
+  <div class="add_capsule">
     <CapsuleCreate v-show="token !== null && mateId !== null" v-bind="$attrs"></CapsuleCreate>
     <RequestCreate v-show="token !== null && mateId == null"></RequestCreate>
     <RequestGet v-if="token !== null && mateId == null"></RequestGet>
@@ -61,4 +61,7 @@ export default {
 </script>
 
 <style scoped>
+.add_capsule{
+  display: flex;
+}
 </style>

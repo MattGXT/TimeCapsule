@@ -38,7 +38,7 @@ module.exports.create = async function (req, res) {
 module.exports.find = async function (req, res) {
     const time = new Date()
     const receiverId = new ObjectId(req.user._id)
-    const cursor = db.collection("capsules").find({"receiverId":receiverId,"availableAt":{$lte:time}})
+    const cursor = db.collection("capsules").find({"receiverId":receiverId,"availableAt":{$lte:time}}).sort({"availableAt":-1})
     const result = await cursor.toArray()
     res.send(result)
 }
@@ -54,7 +54,7 @@ module.exports.findToday = async function (req, res) {
 
 module.exports.findOwn = async function (req, res) {
     const ownerId = new ObjectId(req.user._id)
-    const cursor = db.collection("capsules").find({"ownerId":ownerId})
+    const cursor = db.collection("capsules").find({"ownerId":ownerId}).sort({"availableAt":-1})
     const result = await cursor.toArray()
     res.send(result)
 }

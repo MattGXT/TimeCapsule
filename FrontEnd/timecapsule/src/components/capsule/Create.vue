@@ -1,21 +1,29 @@
 <template>
   <div class="container-capsule">
     <div>
-      <m-textarea placeholder="今天想说些什么呢？" v-model="content"></m-textarea>
-      <label>要埋多久呢？</label><br />
-      <input type="radio" id="one" v-model="availableAt" value=0 />
-      <label for="one">半年</label><br>
-      <input type="radio" id="one" v-model="availableAt" value=1 />
-      <label for="one">一年</label><br>
-      <input type="radio" id="three" v-model="availableAt" value=3 />
-      <label for="three">三年</label><br>
-      <input type="radio" id="five" v-model="availableAt" value=5 />
-      <label for="five">五年</label><br>
-      <input type="radio" id="five" v-model="availableAt" value=10 />
-      <label for="five">十年</label>
+      <m-textarea
+        placeholder="今天想说些什么呢？"
+        v-model="content"
+      ></m-textarea>
+      <input
+        type="range"
+        class="create_range"
+        min="0"
+        max="4"
+        step="1"
+        v-model="availableAt"
+      />
+      <div class="range_label">
+        <span
+          >可以在<b>{{ availableYear }}</b
+          >后打开它</span
+        >
+      </div>
     </div>
     <div class="footer">
-      <button type="button" @click = "create">埋下</button>
+      <button type="button" @click="create">
+        准备好了？
+      </button>
     </div>
   </div>
 </template>
@@ -29,63 +37,143 @@ export default {
   setup() {
     const store = useStore();
     return {
-      token: computed(() => store.state.token)
+      token: computed(() => store.state.token),
     };
   },
   name: "CapsuleCreate",
   components: {},
   data() {
     return {
-      availableAt:null,
-      content:""
+      availableAt: 0,
+      content: "",
     };
   },
 
+  computed: {
+    availableYear() {
+      if (this.availableAt == 0) return "半年";
+      if (this.availableAt == 1) return "一年";
+      if (this.availableAt == 2) return "三年";
+      if (this.availableAt == 3) return "五年";
+      if (this.availableAt == 4) return "十年";
+      return "时长";
+    },
+  },
+
   methods: {
-    create(){
-      if (this.availableAt == null || this.content === ""){
-        this.$emit("alert","请注意！")
-        return
+    create() {
+      if (this.availableAt == null || this.content === "") {
+        this.$emit("alert", "请注意！");
+        return;
       }
-      const data = {"availableAt":parseInt(this.availableAt),"content": this.content}
+      const data = {
+        availableAt: parseInt(this.availableAt),
+        content: this.content,
+      };
       axios
-        .post("http://localhost:3000/create-capsule",data,{
+        .post("http://localhost:3000/create-capsule", data, {
           headers: {
             Authorization: `Bearer ${this.token}`,
           },
         })
         .then((res) => {
           if (res.status === 200) {
-            console.log("Successful")
+            console.log("Successful");
           }
         })
         .catch((error) => {
           console.log(error);
         });
-    }
+    },
   },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .container-capsule {
-  border: 2px solid #A1EAFB;
-  border-radius: 8px;
-  box-shadow: 5px 10px 10px rgba(greenSeaweed, 0.2);
-  background-color: #FDFDFD;
+  width: 400px;
+  border-radius: 4px;
+  background-color: #fdfdfd;
   padding: 1em;
-  box-shadow: 0 3px 1px -2px rgba(161, 234, 251, 0.2), 0 2px 2px 0 rgba(161, 234, 251, 0.14),
-    0 1px 5px 0 rgba(161, 234, 251, 0.12) !important;
-  text-align:left;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+  text-align: left;
+  margin: 0 auto;
+  z-index: 0;
 }
 
 label {
   display: inline-block;
 }
 
+.create_range {
+  width: 100%;
+  margin: 20px 0 0 0;
+  -webkit-appearance: none;
+  &:focus {
+    outline: none;
+  }
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px #000000;
+    background: #ffcef3;
+    border-radius: 1px;
+    border: 0px solid #000000;
+  }
+  &::-webkit-slider-thumb {
+    box-shadow: 0px 0px 0px #000000;
+    border: 1px solid #cabbe9;
+    height: 18px;
+    width: 18px;
+    border-radius: 25px;
+    background: #fdfdfd;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7px;
+  }
+}
 
-
-.footer{
+.footer {
   text-align: center;
+}
+
+.range_label {
+  margin-left: 10px;
+  text-align: left;
+  span {
+    font-size: 0.8em;
+  }
+}
+
+button {
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 1em;
+  padding: 4px 6px;
+  color: none !important;
+  border:none;
+  background: none;
+  cursor: pointer;
+
+  &::after {
+    max-width: 100%;
+  height: 2px;
+  display: block;
+  content: "";
+  background: linear-gradient(-90deg, #CABBE9 0%, #ffcef3 50%, #A1EAFB 100%);
+  background-position: left;
+  opacity: 1;
+  margin-bottom: -6px;
+  margin-top: 1px;
+  transition: 0.5s;
+  }
+  &:hover::after{
+
+    
+  }
+
+
 }
 </style>

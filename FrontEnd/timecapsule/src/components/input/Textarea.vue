@@ -31,14 +31,18 @@ export default {
     border-radius: 3px;
     padding: 0 12px;
     height: 100px;
+        
 }
 textarea {
+  margin-right: -12px;
   align-self: stretch;
   resize: none;
   width: 100%;
   outline: none;
   padding: 0;
+  padding-right: 12px;
   margin: 10px 0 0 0;
   border: none;
+  height: 80px;
 }
 </style>

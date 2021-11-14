@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <CapsuleList :lists = capsule></CapsuleList>
+  <div class="sendbox_capsule">
+    <CapsuleList :lists = capsule :isSendbox="true" title="正在路上"></CapsuleList>
   </div>
 </template>
 
@@ -56,4 +56,7 @@ export default {
 </script>
 
 <style scoped>
+.sendbox_capsule{
+  display: flex;
+}
 </style>

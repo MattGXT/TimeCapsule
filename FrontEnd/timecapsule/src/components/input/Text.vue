@@ -63,6 +63,7 @@ export default {
     & + .input-label {
       transform: translate(0.25rem, -65%) scale(0.8);
       color: #CABBE9;
+      background: transparent;
     }
   }
 
@@ -78,11 +79,12 @@ export default {
   white-space: nowrap;
   transform: translate(0, 0);
   transform-origin: 0 0;
-  background: #FDFDFD;
+  background: transparent;
   color: #FFCEF3;
   transition: transform 120ms ease-in;
   font-weight: bold;
   line-height: 1.2;
   user-select: none;
+  z-index: 1;
 }
 </style>

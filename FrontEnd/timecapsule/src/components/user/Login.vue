@@ -79,6 +79,7 @@ export default {
   align-items: center;
   padding: 2em;
   margin: 0 auto;
+  
 }
 
 .input-lg {

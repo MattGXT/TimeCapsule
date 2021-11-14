@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-      <CapsuleList :lists = capsule v-show="false"></CapsuleList>
+      <CapsuleList :lists = capsule></CapsuleList>
   </div>
 </template>
 
@@ -82,10 +82,7 @@ export default {
 <style scoped>
 .home {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: stretch;
-  height: calc(100vh - 56px);
+  align-items: center;
 }
 
 .footer {
