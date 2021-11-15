@@ -9,7 +9,7 @@ const dbName = 'TimeCapsule';
 async function init() {
     // Use connect method to connect to the server
     await client.connect();
-    console.log('Connected successfully to database');
+    console.log('Connected to database');
     const db = client.db(dbName);
     db.listCollections({ name: "users" }).next(function (err, colinfo) {
         if (!colinfo) {

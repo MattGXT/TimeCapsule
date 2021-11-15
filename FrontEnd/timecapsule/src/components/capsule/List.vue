@@ -1,7 +1,8 @@
 <template>
   <div class="contatiner-message">
     <h1>{{ title }}</h1>
-    <div class="timeline" v-if="lists.length !== 0">
+    <div class="loading" v-show="loading">loading</div>
+    <div class="timeline" v-show="lists.length !== 0 && !loading">
       <div class="timeline_item" :key="list" v-for="list in lists">
         <div class="timeline_item_content">
           <div class="item_row">
@@ -17,29 +18,40 @@
         </div>
         <div class="timeline_item_divider">
           <div class="item_dot">
-            <div class="dot" v-bind:class="{'pink':list.isRead,'blue':!list.isRead}"></div>
+            <div :class="{'pink':list.isRead,'blue':!list.isRead,'dot_send':isSendbox,'dot':!isSendbox}" @click="read(list._id)"></div>
           </div>
         </div>
       </div>
     </div>
-    <div v-if="lists.length === 0">
+    <div v-show="lists.length === 0 && !loading">
       {{
         isSendbox
           ? "您还没有埋下过胶囊哦。点击上方的加号尝试一下吧！"
-          : "您没有已经打开过的胶囊哦\n再等等吧，也许明天就有了呢？"
+          : "您没有已经打开过的胶囊哦。再等等吧，也许明天就有了呢？"
       }}
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { computed } from "vue";
+import { useStore } from "vuex";
+
 export default {
+  setup() {
+    const store = useStore();
+    return {
+      token: computed(() => store.state.token),
+    };
+  },
   name: "CapsuleCreate",
   components: {},
   props: {
     lists: Array,
     isSendbox: { type: Boolean, default: false },
     title: { type: String, default: "时间胶囊" },
+    loading: {type:Boolean, default:false}
   },
   data() {
     return {};
@@ -51,8 +63,34 @@ export default {
   methods: {
     sendDate(date) {
       const d = new Date(date);
-      return d.getFullYear() + "年" + d.getMonth() + "月" + d.getDate() + "日";
+      return d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate();
     },
+
+    read(id){
+      if (this.isSendbox){
+        return
+      }
+      axios
+        .post("http://localhost:3000/read-capsule", {"_id":id}, {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            this.$emit("refresh")
+          }
+        })
+        .catch((error) => {
+          switch (error.response.status){
+            case 500:
+              this.$emit("alert","ops！出了一些小问题")
+              break
+            default:
+              this.$emit("alert","未知错误")
+          }
+        });
+    }
   },
 };
 </script>
@@ -100,12 +138,14 @@ export default {
           flex: 0 0 40%;
           max-width: 35%;
           padding: 14px;
+          color: rgba(0,0,0,.6);
         }
         div:nth-child(2) {
           flex-basis: 0;
           flex-grow: 1;
           max-width: 100%;
           padding: 14px;
+          color: rgba(0,0,0,.6);
         }
       }
     }
@@ -137,16 +177,33 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+
+        &:hover{
+          background-color: #FFCEF3;
+        border-color: #FFCEF3;
+        }
       }
 
       .pink{
-        background-color: #FFCEF3 !important;
-        border-color: #FFCEF3 !important;
+        background-color: #FFCEF3;
+        border-color: #FFCEF3;
       }
 
       .blue{
-        background-color: #a1eafb !important;
-        border-color: #a1eafb !important;
+        background-color: #a1eafb;
+        border-color: #a1eafb;
+        cursor: pointer;
+      }
+
+      .dot_send{
+        cursor: default;
+        height: 18px;
+        margin: 3px;
+        width: 18px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }

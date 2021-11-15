@@ -60,8 +60,17 @@ export default {
             this.$router.push("/");
           }
         })
-        .catch(() => {
-          this.$emit("alert","用户名/密码错误")
+        .catch((error) => {
+          switch (error.response.status){
+            case 400:
+              this.$emit("alert","用户名/密码错误")
+              break
+            case 401:
+              this.$emit("alert","请验证您的邮箱")
+              break
+            default:
+              this.$emit("alert","未知错误")
+          }
         });
     },
     register() {
@@ -79,6 +88,7 @@ export default {
   align-items: center;
   padding: 2em;
   margin: 0 auto;
+  
   
 }
 

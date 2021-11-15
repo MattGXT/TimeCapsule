@@ -63,7 +63,7 @@ export default {
   methods: {
     create() {
       if (this.availableAt == null || this.content === "") {
-        this.$emit("alert", "请注意！");
+        this.$emit("alert", "不要发送空白消息哦");
         return;
       }
       const data = {
@@ -78,11 +78,17 @@ export default {
         })
         .then((res) => {
           if (res.status === 200) {
-            console.log("Successful");
+            this.$emit("alert","您的胶囊已经埋好了。以后再来看看吧",true)
           }
         })
         .catch((error) => {
-          console.log(error);
+          switch (error.response.status){
+            case 400:
+              this.$emit("alert","账号错误，请重新登录")
+              break
+            default:
+              this.$emit("alert","未知错误")
+          }
         });
     },
   },

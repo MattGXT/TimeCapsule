@@ -66,7 +66,7 @@ export default {
         .post("http://localhost:3000/signup", user)
         .then((res) => {
           if (res.status === 200) {
-            alert("please check your email");
+            this.$emit("alert","谢谢您的注册，请检查您的邮箱",true)
             console.log(res)
           }
         })
@@ -117,7 +117,7 @@ export default {
 input[class="gender"][id="male"]:hover + svg[class="male"],
 input[class="gender"][id="male"]:checked + svg[class="male"],
 input[class="gender"][id="male"]:focus + svg[class="male"] {
-	fill: #a1eafb;
+	fill: #CABBE9;
 }
 
 input[class="gender"][id="female"]:hover + svg[class="female"],

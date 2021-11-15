@@ -1,14 +1,15 @@
 <template>
   <div class="container-input">
     <input
-    class="input-field"
+      class="input-field"
       :type="nativeType"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
       v-bind="$attrs"
       placeholder=" "
+      :class="{ simple: simple }"
     />
-    <span class="input-label">{{ hint }}</span>
+    <span class="input-label" :class="{ 'simple-label': simple,'input-label':!simple }">{{ hint }}</span>
   </div>
 </template>
 
@@ -24,16 +25,19 @@ export default {
     },
     label: String,
     modelValue: String,
-    error:Boolean,
+    error: Boolean,
     hint: {
       type: String,
       default: "",
     },
+    simple: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {},
 };
 </script>
@@ -48,25 +52,23 @@ export default {
   box-sizing: border-box;
   display: block;
   width: 100%;
-  border: 3px solid #FFCEF3;
+  border: 3px solid #ffcef3;
   font-size: 1rem;
 
   padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
   color: currentColor;
-  background: #FDFDFD;
+  background: #fdfdfd;
   outline: none;
   border-radius: 4px;
-
 
   &:focus,
   &:not(:placeholder-shown) {
     & + .input-label {
       transform: translate(0.25rem, -65%) scale(0.8);
-      color: #CABBE9;
+      color: #cabbe9;
       background: transparent;
     }
   }
-
 }
 
 .input-label {
@@ -80,11 +82,62 @@ export default {
   transform: translate(0, 0);
   transform-origin: 0 0;
   background: transparent;
-  color: #FFCEF3;
+  color: #ffcef3;
   transition: transform 120ms ease-in;
   font-weight: bold;
   line-height: 1.2;
   user-select: none;
   z-index: 1;
+}
+
+.simple {
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+
+  font-family: inherit;
+  width: 100%;
+  outline: 0;
+  font-size: 1rem;
+  padding: 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:focus,
+  &:not(:placeholder-shown) {
+    & + .input-label {
+      transform: translate(0, -80%) scale(0.8);
+      color: rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &:focus {
+    ~ .simple-label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: #a1eafb;
+      font-weight: 700;
+    }
+    border-image: linear-gradient(to right, #a1eafb, #ffcef3);
+    border-image-slice: 1;
+  }
+}
+
+.simple-label{
+  margin:0;
+  padding:0;
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.2);
 }
 </style>

@@ -9,17 +9,19 @@
       <div class="alert_wrapper">
         <svg
           class="alert_logo"
+          :class="{'success_alert_logo':success}"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
           <path d="M9,7V9H11V17H13V9H15V7H9Z"></path>
         </svg>
         <div class="alert_content">{{ description }}</div>
-        <div class="alert_border_color"></div>
+        <div class="alert_border_color" :class="{'success_alert':success}"></div>
         <button class="alert_button" type="button" @click="close">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
+            :class="{'success_alert_logo':success}"
             role="img"
             aria-hidden="true"
             class="v-icon__svg"
@@ -44,6 +46,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    success:{
+      type: Boolean,
+      default: false
+    }
   },
   emits: ["update:modelValue"],
   data() {
@@ -145,5 +151,14 @@ button {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+
+.success_alert{
+  background-color: #A1EAFB;
+  border-color: #A1EAFB;
+}
+
+.success_alert_logo{
+  fill: #A1EAFB;
 }
 </style>

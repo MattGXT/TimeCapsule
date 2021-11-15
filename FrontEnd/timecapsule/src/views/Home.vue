@@ -1,11 +1,14 @@
 <template>
   <div class="home">
-      <CapsuleList :lists = capsule></CapsuleList>
+    <RequestGet v-bind="$attrs" v-show="token !== null && mateId == null"></RequestGet>
+    <CapsuleList :lists="capsule" v-on:refresh="getCapsule()"></CapsuleList>
+    <!--v-show="token !== null && mateId == null"-->
   </div>
 </template>
 
 <script>
-import CapsuleList from "../components/capsule/List.vue"
+import RequestGet from "../components/request/Request.vue";
+import CapsuleList from "../components/capsule/List.vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
 import axios from "axios";
@@ -13,7 +16,8 @@ import axios from "axios";
 export default {
   name: "Home",
   components: {
-    CapsuleList
+    CapsuleList,
+    RequestGet,
   },
   setup() {
     const store = useStore();
@@ -23,19 +27,18 @@ export default {
       setMateId: (mateId) => store.commit("setMateId", mateId),
     };
   },
-  data(){
-    return{
+  data() {
+    return {
       capsule: [],
-    }
+    };
   },
   async created() {
-    await this.tokenValid();  
+    await this.tokenValid();
     await this.getCapsule();
   },
   async activated() {
     await this.tokenValid();
     await this.getCapsule();
-    
   },
   methods: {
     async tokenValid() {
@@ -68,7 +71,7 @@ export default {
         })
         .then((res) => {
           if (res.status === 200) {
-            this.capsule = res.data
+            this.capsule = res.data;
           }
         })
         .catch((error) => {

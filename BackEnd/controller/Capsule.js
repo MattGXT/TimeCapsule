@@ -9,7 +9,7 @@ module.exports.create = async function (req, res) {
     const ownerId = new ObjectId(req.user._id)
     const query = await db.collection("users").findOne({ "_id": ownerId })
     if (!query){
-        res.status(406).send("Something wrong")
+        res.status(400).send("user not exist")
         return
     }
     const receiverId = new ObjectId(query.mateId)
@@ -29,7 +29,7 @@ module.exports.create = async function (req, res) {
         if (err) {
             console.log(capsule)
             console.log(err)
-            return res.sendStatus(406)
+            return res.sendStatus(500)
         }
         return res.send("Capsule added")
     })
@@ -60,12 +60,12 @@ module.exports.findOwn = async function (req, res) {
 }
 
 module.exports.read = async function (req, res) {
-    const id = req.body._id
+    const id = new ObjectId(req.body._id)
     const receiverId = new ObjectId(req.user._id)
-    const result = await db.collection("capsules").updateOne({"_id":id,"receiverId":receiverId},{isRead:true})
+    const result = await db.collection("capsules").updateOne({"_id":id,"receiverId":receiverId},{$set: { "isRead":true }})
     if(result){
         res.send("Change read state successful")
     }else{
-        res.sendStatus(403)
+        res.sendStatus(500)
     }
 }

@@ -43,7 +43,7 @@ module.exports.verify = async function (req, res) {
     const time = new Date().getTime()
     const verify = req.query.code
     if (verify == undefined) {
-        return res.sendStatus(406)
+        return res.sendStatus(400)
     }
     const query = await db.collection("verify").findOne({ "verify": verify })
     if (!query) {
@@ -89,7 +89,7 @@ module.exports.login = async function (req, res) {
                 const accessToken = jwt.sign({ email: email, _id: query._id }, process.env.ACCESS_TOKEN_SECRET)
                 return res.send({ "accessToken": accessToken, "mateId": query.mateId, "name": query.name, "email": query.email })
             } else {
-                res.sendStatus(401)
+                res.sendStatus(400)
             }
         } catch {
             res.sendStatus(500)
@@ -97,7 +97,7 @@ module.exports.login = async function (req, res) {
     } else {
         const query2 = await db.collection("verify").findOne({ email })
         if(query2){
-            return res.send("please check your email to confirm the register")
+            return res.status(401).send("please check your email to confirm the register")
         }else{
             return res.sendStatus(400)
         }

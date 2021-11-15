@@ -51,7 +51,7 @@
       </transition>
     </router-view>
   </main>
-  <m-alert :description="description" v-model="alertDisplay"></m-alert>
+  <m-alert :description="description" v-model="alertDisplay" :success="alertSuccess"></m-alert>
 </template>
 
 <script>
@@ -77,6 +77,7 @@ export default {
     return {
       description: "",
       alertDisplay: false,
+      alertSuccess: false
     };
   },
   methods: {
@@ -97,9 +98,15 @@ export default {
       this.$router.push("/capsule/own");
     },
 
-    showAlert(text) {
+    showAlert(text,...args) {
+      if(args.length>0){
+        this.alertSuccess = true
+      }else{
+        this.alertSuccess = false;
+      }
       this.description = text;
       this.alertDisplay = true;
+      
     },
   },
 };
@@ -107,7 +114,7 @@ export default {
 
 <style lang="scss">
 #app {
-  font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+  font-family: "Microsoft YaHei", "黑体", "宋体", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

@@ -14,19 +14,30 @@ module.exports.create = async function (req, res) {
         const query2 = await db.collection("requests").findOne(request)
         if(!query2){
             db.collection("requests").insertOne(request, function (err, id) {
-                if (err) return res.status(406).send("Insert failed")
+                if (err) return res.status(400).send("Insert failed")
                 return res.send("Create request successful")
             })
         }else{
-            res.status(406).send("Request existed")
+            res.status(403).send("Request existed")
         }
     }else{
-        res.status(406).send("User not existed")
+        res.status(400).send("User not existed")
     }
 }
 
 module.exports.approve = async function (req, res) {
     const id = new ObjectId(req.body._id.$oid)
+    const userId = new ObjectId(req.user._id)
+    const userMateCheck = await db.collection("users").findOne({ "_id": userId })
+    if(userMateCheck){
+        if(userMateCheck.mateId){
+            res.status(400).send("already have mate")
+            return
+        }
+    }else{
+        res.status(400).send("user not existed")
+        return
+    }
     const query = await db.collection("requests").findOne({ "_id": id })
     if (query) {
         const session = connection.client.startSession();
@@ -42,13 +53,13 @@ module.exports.approve = async function (req, res) {
                 await db.collection("requests").deleteOne({ "_id": id })
             }, transactionOptions)
         } catch{
-            res.status(406).send("Update failed")
+            res.status(500).send("Update failed")
         }finally {
             await session.endSession();
             res.send("Update Successful")
         }
     }else{
-        res.status(406).send("request not existed")
+        res.status(400).send("request not existed")
     }
 }
 

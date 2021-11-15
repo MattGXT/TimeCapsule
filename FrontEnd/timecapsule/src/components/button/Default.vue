@@ -73,7 +73,7 @@ button {
   }
 
   &:after {
-    background-color: #A1EAFB;
+    background-color: #CABBE9;
   }
 
   &:before {
@@ -82,6 +82,7 @@ button {
 
   &:hover {
     background-color: #ffffff;
+    color: #CABBE9;
     border-color: transparent;
     transition: background 0.3s 0.1s;
   }
