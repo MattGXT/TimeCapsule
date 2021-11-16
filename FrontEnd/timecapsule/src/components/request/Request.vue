@@ -17,7 +17,7 @@
     
     <div class="container-applications">
       <h1>来自远方的请求</h1>
-      <div class="application" v-for="content in testData" :key="content._id">
+      <div class="application" v-for="content in contents" :key="content._id" v-show="contents.length > 0">
         <div>{{ content.name }}-{{ content.email }}</div>
 
         <button type="button" @click="requestApprove(content._id)">
@@ -48,7 +48,7 @@ export default {
   components: {},
   data() {
     return {
-      contents: undefined,
+      contents: Array,
       email: "",
       testData: [
         { name: "matt", email: "Hello@qq.com" },

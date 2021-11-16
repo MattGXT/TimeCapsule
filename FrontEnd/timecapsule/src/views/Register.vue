@@ -1,6 +1,9 @@
 <template>
-  <div class="">
-      <UserSignUp></UserSignUp>
+  <div>
+      <UserSignUp v-bind="$attrs"></UserSignUp>
+      <div class="container-register">
+
+      </div>
   </div>
 </template>
 
@@ -29,5 +32,7 @@ export default {
 </script>
 
 <style scoped>
-
+.container-register{
+  
+}
 </style>

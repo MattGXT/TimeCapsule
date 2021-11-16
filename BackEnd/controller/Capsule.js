@@ -36,9 +36,11 @@ module.exports.create = async function (req, res) {
 }
 
 module.exports.find = async function (req, res) {
+    const page = parseInt(req.query.page)
+    const amount = parseInt(req.query.amount)
     const time = new Date()
     const receiverId = new ObjectId(req.user._id)
-    const cursor = db.collection("capsules").find({"receiverId":receiverId,"availableAt":{$lte:time}}).sort({"availableAt":-1})
+    const cursor = db.collection("capsules").find({"receiverId":receiverId,"availableAt":{$lte:time}}).sort({"createdAt":-1}).limit(amount).skip(page*amount)
     const result = await cursor.toArray()
     res.send(result)
 }
@@ -53,8 +55,10 @@ module.exports.findToday = async function (req, res) {
 }
 
 module.exports.findOwn = async function (req, res) {
+    const page = parseInt(req.query.page)
+    const amount = parseInt(req.query.amount)
     const ownerId = new ObjectId(req.user._id)
-    const cursor = db.collection("capsules").find({"ownerId":ownerId}).sort({"availableAt":-1})
+    const cursor = db.collection("capsules").find({"ownerId":ownerId}).sort({"availableAt":-1}).sort({"createdAt":-1}).limit(amount).skip(page*amount)
     const result = await cursor.toArray()
     res.send(result)
 }

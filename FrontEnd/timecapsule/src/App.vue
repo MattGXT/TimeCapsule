@@ -189,6 +189,7 @@ body {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+  transition: all 0.3s ease;
 }
 
 .fade-enter-active,

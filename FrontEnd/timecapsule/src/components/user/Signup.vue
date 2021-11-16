@@ -58,7 +58,7 @@ export default {
   methods: {
     register() {
       if (this.email === "" || this.password === "" || this.gender === null) {
-        alert("please!");
+        this.$emit("alert","填写完再提交哦")
         return;
       }
       const user = { email: this.email.toLowerCase(), password: this.password };
@@ -66,8 +66,7 @@ export default {
         .post("http://localhost:3000/signup", user)
         .then((res) => {
           if (res.status === 200) {
-            this.$emit("alert","谢谢您的注册，请检查您的邮箱",true)
-            console.log(res)
+            this.$emit("alert","感谢您的注册，请检查您的邮箱",true)
           }
         })
         .catch((error) => {
