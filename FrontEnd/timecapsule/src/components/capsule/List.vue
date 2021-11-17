@@ -1,10 +1,15 @@
 <template>
-  <div class="contatiner-message">
+<transition name = "fadeHeight" mode="out-in">
+  <div class="contatiner-message" :class="{'message-loading':loading,'message-notloading':!loading}" ref="containerMessage" :style="{ '--outHeight': outHeight }">
     <h1>{{ title }}</h1>
     
-    
-    <div class="timeline" v-show="lists.length !== 0" ref="container" :style="{'--containerHeight':height}">
-      <div class="timeline_item" :key="list" v-for="list in lists">
+    <div
+      class="timeline"
+      v-show="lists.length !== 0"
+      ref="container"
+      :style="{ '--containerHeight': height }"
+    >
+      <div class="timeline_item" :key="list._id" v-for="list in lists">
         <div class="timeline_item_content">
           <div class="item_row">
             <div>
@@ -19,15 +24,23 @@
         </div>
         <div class="timeline_item_divider">
           <div class="item_dot">
-            <div :class="{'pink':list.isRead,'blue':!list.isRead,'dot_send':isSendbox,'dot':!isSendbox}" @click="read(list._id)"></div>
+            <div
+              :class="{
+                pink: list.isRead,
+                blue: !list.isRead,
+                dot_send: isSendbox,
+                dot: !isSendbox,
+              }"
+              @click="read(list._id)"
+            ></div>
           </div>
         </div>
       </div>
     </div>
-    <transition name = "fade">
-      <div class="loader" v-show="loading"></div>
-    </transition>
     
+
+      <div class="loader" v-show="loading"></div>
+
     <div v-if="!loading && lists.length === 0">
       {{
         isSendbox
@@ -36,11 +49,12 @@
       }}
     </div>
   </div>
+  </transition>
 </template>
 
 <script>
 import axios from "axios";
-import { computed} from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -56,73 +70,84 @@ export default {
     lists: Array,
     isSendbox: { type: Boolean, default: false },
     title: { type: String, default: "时间胶囊" },
-    loading: {type:Boolean, default:false},
-    page:Number,
-    amount:Number
+    loading: { type: Boolean, default: false },
+    page: Number,
+    amount: Number,
   },
   data() {
     return {
-      height:""
+      height: "",
+      outHeight:""
     };
   },
   watch: {
-  },
-  updated(){
-    this.matchHeight()
-  },
-  mounted(){
-    let container = this.$refs.container;
-    container.addEventListener("scroll",()=>{
-      let scrollHeight = container.scrollHeight
-      let clientHeight = container.clientHeight
-      let scrollTop = container.scrollTop
-      if(scrollTop + clientHeight === scrollHeight){
-        this.$emit("getNext")
+    loading:function(newVal){
+      if(newVal === true){
+        this.outHeight = this.$refs.containerMessage.offsetHeight + "px";
       }
-    })
+    }
+  },
+  updated() {
+    this.matchHeight();
+  },
+  mounted() {
+
+    let container = this.$refs.container;
+    container.addEventListener("scroll", () => {
+      let scrollHeight = container.scrollHeight;
+      let clientHeight = container.clientHeight;
+      let scrollTop = container.scrollTop;
+      if (scrollTop + clientHeight > scrollHeight - 1) {
+        this.$emit("getNext");
+      }
+    });
   },
   created() {},
   activated() {},
-  unmounted () {
-    window.removeEventListener('scroll', this.$refs.container);
+  unmounted() {
+    window.removeEventListener("scroll", this.$refs.container);
   },
 
   methods: {
     sendDate(date) {
       const d = new Date(date);
-      return d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate();
+      return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
     },
 
     matchHeight() {
-            var heightString = this.$refs.container.scrollHeight;
-            this.height = heightString + "px"
-        },
+      var heightString = this.$refs.container.scrollHeight;
+      this.height = heightString + "px";
+    },
 
-    read(id){
-      if (this.isSendbox){
-        return
+    read(id) {
+      if (this.isSendbox) {
+        return;
       }
       axios
-        .post("http://localhost:3000/read-capsule", {"_id":id}, {
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
-        })
+        .post(
+          "http://localhost:3000/read-capsule",
+          { _id: id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status === 200) {
-            this.$emit("refresh")
+            this.$emit("refresh");
           }
         })
         .catch((error) => {
-          switch (error.response.status){
+          switch (error.response.status) {
             case 500:
-              this.$emit("alert","ops！出了一些小问题")
-              break
+              this.$emit("alert", "ops！出了一些小问题");
+              break;
             default:
-              this.$emit("alert","未知错误")
+              this.$emit("alert", "未知错误");
           }
         });
-    }
+    },
   },
 };
 </script>
@@ -138,6 +163,16 @@ export default {
   text-align: left;
   margin: 0 auto;
   z-index: 0;
+  height: auto;
+ transition: max-height 1s;
+}
+
+.message-loading{
+  max-height:80vh;
+}
+
+.message-notloading{
+  max-height: 60vh;
 }
 
 .timeline {
@@ -146,11 +181,12 @@ export default {
   overflow-x: hidden;
   overflow-y: scroll;
   max-height: 50vh;
-  &::-webkit-scrollbar{
+  
+  &::-webkit-scrollbar {
     width: 12px;
   }
 
-  &::-webkit-scrollbar-thumb{
+  &::-webkit-scrollbar-thumb {
     height: 40px;
     border-radius: 8px;
     border: 4px solid transparent;
@@ -184,14 +220,14 @@ export default {
           flex: 0 0 40%;
           max-width: 35%;
           padding: 14px;
-          color: rgba(0,0,0,.6);
+          color: rgba(0, 0, 0, 0.6);
         }
         div:nth-child(2) {
           flex-basis: 0;
           flex-grow: 1;
           max-width: 100%;
           padding: 14px;
-          color: rgba(0,0,0,.6);
+          color: rgba(0, 0, 0, 0.6);
         }
       }
     }
@@ -224,24 +260,24 @@ export default {
         justify-content: center;
         align-items: center;
 
-        &:hover{
-          background-color: #FFCEF3;
-        border-color: #FFCEF3;
+        &:hover {
+          background-color: #ffcef3;
+          border-color: #ffcef3;
         }
       }
 
-      .pink{
-        background-color: #FFCEF3;
-        border-color: #FFCEF3;
+      .pink {
+        background-color: #ffcef3;
+        border-color: #ffcef3;
       }
 
-      .blue{
+      .blue {
         background-color: #a1eafb;
         border-color: #a1eafb;
         cursor: pointer;
       }
 
-      .dot_send{
+      .dot_send {
         cursor: default;
         height: 18px;
         margin: 3px;
@@ -260,7 +296,7 @@ h1 {
   margin: 0 0 15px 0;
 }
 
-.loader{
+.loader {
   --clock-color: #a1eafb;
   --clock-width: 2rem;
   --clock-radius: calc(var(--clock-width) / 2);
@@ -300,13 +336,12 @@ h1 {
     height: var(--clock-hour-length);
     animation-duration: 15s;
   }
-
-
-
 }
 @keyframes spin {
   to {
     transform: rotate(1turn);
   }
 }
+
+
 </style>
