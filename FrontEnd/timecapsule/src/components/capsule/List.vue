@@ -38,8 +38,10 @@
       </div>
     </div>
     
-
+    <transition>
       <div class="loader" v-show="loading"></div>
+    </transition> 
+      
 
     <div v-if="!loading && lists.length === 0">
       {{

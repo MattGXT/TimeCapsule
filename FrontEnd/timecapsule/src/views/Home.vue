@@ -40,12 +40,13 @@ export default {
       loading: false,
       page: 0,
       amount: 12,
-      isFullLoaded:false
+      isFullLoaded: false,
     };
   },
   async created() {
     await this.tokenValid();
     await this.getCapsule();
+    this.wsConnect();
   },
   async activated() {
     await this.tokenValid();
@@ -76,33 +77,27 @@ export default {
     async getCapsule() {
       this.loading = true;
       return axios
-        .get(
-          "http://localhost:3000/get-capsule",
-          {
-            headers: {
-              Authorization: `Bearer ${this.token}`,
-            },
-            params: {
-              page: this.page,
-              amount: this.amount
-            },
-          }
-        )
+        .get("http://localhost:3000/get-capsule", {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+          params: {
+            page: this.page,
+            amount: this.amount,
+          },
+        })
         .then((res) => {
           if (res.status === 200) {
-            if(res.data.length===0){
-              this.isFullLoaded = true
+            if (res.data.length === 0) {
+              this.isFullLoaded = true;
             }
             if (this.capsule.length > 0) {
-                  setTimeout(() => {
-                    this.capsule = this.capsule.concat(res.data);
-                  this.loading = false;
-                  }, 1000);
+              this.capsule = this.capsule.concat(res.data);
+              this.loading = false;
             } else {
               this.capsule = res.data;
               this.loading = false;
             }
-            
           }
         })
         .catch(() => {
@@ -111,9 +106,27 @@ export default {
     },
 
     getNext() {
-      if(this.isFullLoaded) return
+      if (this.isFullLoaded) return;
       this.page += 1;
       this.getCapsule();
+    },
+
+    wsConnect() {
+      let ws = new WebSocket("ws://localhost:3000?token=" + this.token);
+      ws.onopen = function() {
+        setInterval(() => {
+          ws.send("ping")
+        }, 15000);
+        ws.onmessage = function(mes) {
+          alert(mes.data);
+        };
+      };
+      ws.onclose = function(){
+        ws = new WebSocket("ws://localhost:3000?token=" + this.token);
+      }
+      ws.onerror = function(){
+        ws = new WebSocket("ws://localhost:3000?token=" + this.token);
+      }
     },
   },
 };
