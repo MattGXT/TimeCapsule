@@ -90,11 +90,13 @@ export default {
     }
   },
   updated() {
+    this.$nextTick(function () {
     this.matchHeight();
+  })
   },
   mounted() {
-
     let container = this.$refs.container;
+    
     container.addEventListener("scroll", () => {
       let scrollHeight = container.scrollHeight;
       let clientHeight = container.clientHeight;
@@ -103,6 +105,7 @@ export default {
         this.$emit("getNext");
       }
     });
+    
   },
   created() {},
   activated() {},
@@ -117,7 +120,7 @@ export default {
     },
 
     matchHeight() {
-      var heightString = this.$refs.container.scrollHeight;
+      let heightString = this.$refs.container.scrollHeight;
       this.height = heightString + "px";
     },
 

@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt')
 
 
 
+
 module.exports.signUp = async function (req, res) {
     const email = req.body.email
     const query = await db.collection("users").findOne({ "email": email })
@@ -97,7 +98,7 @@ module.exports.login = async function (req, res) {
     } else {
         const query2 = await db.collection("verify").findOne({ email })
         if(query2){
-            return res.status(401).send("please check your email to confirm the register")
+            return res.status(403).send("please check your email to confirm the register")
         }else{
             return res.sendStatus(400)
         }

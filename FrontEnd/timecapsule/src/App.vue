@@ -45,7 +45,7 @@
     </div>
   </nav>
   <main>
-    <router-view v-slot="{ Component }" v-on:alert="showAlert">
+    <router-view v-slot="{ Component }" v-on:alert="showAlert" v-on:logout="logout">
       <transition name="fade" mode="out-in">
         <component :is="Component" />
       </transition>
@@ -212,4 +212,5 @@ ul {
   fill: #fdfdfd;
 }
 
+svg{transition: fill 0.3s;}
 </style>

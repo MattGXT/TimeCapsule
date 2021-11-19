@@ -2,6 +2,7 @@ var connection = require('../db/initDB')
 const dbName = 'TimeCapsule'
 const { ObjectId } = require('bson');
 const db = connection.client.db(dbName)
+var clientList = require('../ws/client')
 
 module.exports.create = async function (req, res) {
     const Id = new ObjectId(req.user._id)
@@ -14,7 +15,12 @@ module.exports.create = async function (req, res) {
         const query2 = await db.collection("requests").findOne(request)
         if(!query2){
             db.collection("requests").insertOne(request, function (err, id) {
-                if (err) return res.status(400).send("Insert failed")
+                if (err) return res.status(500).send("Insert failed")
+                // send remind to target user
+                if (clientList.has(query._id.toString())){
+                    let ws = clientList.get(query._id.toString())        
+                    ws.send(JSON.stringify({ type: "request",name:user.name,email:user.email,id:id.insertedId }))
+                }
                 return res.send("Create request successful")
             })
         }else{

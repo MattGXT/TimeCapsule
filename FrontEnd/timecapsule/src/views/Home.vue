@@ -9,7 +9,9 @@
       v-on:refresh="getCapsule()"
       :loading="loading"
       v-on:getNext="getNext"
+      v-if="token !== null && mateId !== null"
     ></CapsuleList>
+    <m-modal v-bind="$attrs" v-show="showModal" v-on:closeModal = "this.showModal = false" :contents = modalContent></m-modal>
   </div>
 </template>
 
@@ -41,16 +43,15 @@ export default {
       page: 0,
       amount: 12,
       isFullLoaded: false,
+      showModal:false,
+      modalContent:null
     };
   },
   async created() {
     await this.tokenValid();
-    await this.getCapsule();
-    this.wsConnect();
   },
   async activated() {
     await this.tokenValid();
-    await this.getCapsule();
   },
   methods: {
     async tokenValid() {
@@ -62,14 +63,15 @@ export default {
             },
           })
           .then((res) => {
-            if (res.status === 200 && res.data.mateId !== null) {
+            if (res.status === 200) {
               localStorage.setItem("mateId", res.data.mateId);
               this.setMateId(res.data.mateId);
+              this.getCapsule();
+              this.wsConnect()
             }
           })
-          .catch((error) => {
-            console.log(error);
-            localStorage.clear();
+          .catch(() => {
+            this.$emit('logout')
           });
       }
     },
@@ -112,21 +114,30 @@ export default {
     },
 
     wsConnect() {
-      let ws = new WebSocket("ws://localhost:3000?token=" + this.token);
+      const ws = new WebSocket("ws://localhost:3000?token=" + this.token);
+      console.log("connection start");
       ws.onopen = function() {
-        setInterval(() => {
-          ws.send("ping")
+        let ping = setInterval(() => {
+          if(ws.readyState === 1){ws.send("ping");}
+          else{
+            clearInterval(ping)
+          }
         }, 15000);
-        ws.onmessage = function(mes) {
-          alert(mes.data);
-        };
+        
       };
-      ws.onclose = function(){
-        ws = new WebSocket("ws://localhost:3000?token=" + this.token);
-      }
-      ws.onerror = function(){
-        ws = new WebSocket("ws://localhost:3000?token=" + this.token);
-      }
+      ws.onmessage = mes => {
+          this.modalContent = JSON.parse(mes.data)
+          this.showModal = true
+        };
+      ws.onclose = ()=> {
+        setTimeout(()=> {
+          if(this.token !== null){this.wsConnect();}
+          
+        }, 10000);
+      };
+      ws.onerror = ()=> {
+        ws.close();
+      };
     },
   },
 };

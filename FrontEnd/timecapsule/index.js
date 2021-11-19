@@ -2,12 +2,14 @@ import mbtn from './src/components/button/Default'
 import minput from './src/components/input/Text'
 import mtextarea from './src/components/input/Textarea'
 import mAlert from './src/components/alert/Alert'
+import mModal from './src/components/alert/Modal'
 
 const components = [
     mbtn,
     minput,
     mtextarea,
-    mAlert
+    mAlert,
+    mModal
 ]
 
 const install = function(app){

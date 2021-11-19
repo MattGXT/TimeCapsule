@@ -61,6 +61,10 @@ export default {
           }
         })
         .catch((error) => {
+          if(!error?.response?.status){
+            this.$emit("alert","稍等一下，网络可能有些问题")
+            return
+          }
           switch (error.response.status){
             case 400:
               this.$emit("alert","用户名/密码错误")

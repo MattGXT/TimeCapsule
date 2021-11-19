@@ -16,7 +16,7 @@
 
     
     <div class="container-applications">
-      <h1>来自远方的请求</h1>
+      <h1>来自Ta们的请求</h1>
       <div class="application" v-for="content in contents" :key="content._id" v-show="contents.length > 0">
         <div>{{ content.name }}-{{ content.email }}</div>
 
@@ -89,18 +89,19 @@ export default {
         })
         .then((res) => {
           if (res.status === 200) {
-            this.$emit("alert","通知成功，和她/他分享吧",true)
+            this.$emit("alert","开始和她/他分享吧",true)
           }
           console.log(res);
         })
         .catch((error) => {
           switch (error.response.status){
-            case 400:
-              this.$emit("alert","该用户不存在")
+            case 401:
+              this.$emit("alert","请重新登录")
               break
-            case 403:
-              this.$emit("alert","您已经发送过请求了哦")
-              break    
+            case 400:
+              this.$emit("alert","该请求不存在")
+              break
+             
             default:
               this.$emit("alert","未知错误")
           }
@@ -127,9 +128,15 @@ export default {
         })
         .catch((error) => {
           switch (error.response.status){
-            case 400:
-              this.$emit("alert","该请求不存在")
+            case 401:
+              this.$emit("alert","请重新登录")
               break
+            case 400:
+              this.$emit("alert","该用户不存在")
+              break
+            case 403:
+              this.$emit("alert","您已经发送过请求了哦")
+              break   
             default:
               this.$emit("alert","未知错误")
           }

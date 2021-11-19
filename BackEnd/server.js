@@ -7,7 +7,7 @@ let WSServer = WebSocket.Server;
 let server = require('http').createServer();
 let app = require('./index');
 let url = require('url');
-var clientList = new Map()
+var clientList = require('./ws/client')
 const heartbeat = (ws) => {
     ws.isAlive = true
   }
@@ -19,9 +19,10 @@ let wss = new WSServer({
 
 wss.on('connection', function connection(ws, req) {
     const token = url.parse(req.url, true).query.token
-        if (token == null) ws.close();
+        if (token == null) return ws.close();
+        
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-            if (err) ws.close();
+            if (err) return ws.close();
             ws.id = user._id
             heartbeat(ws)
             clientList.set(ws.id,ws)
@@ -30,10 +31,8 @@ wss.on('connection', function connection(ws, req) {
         if(data.toString() === 'ping'){
             heartbeat(ws)
             clientList.set(ws.id,ws)
-            console.log(clientList.get(ws.id))
         }
     });
-
 });
 
 setInterval(() => {
@@ -51,3 +50,5 @@ server.on('request', app);
 server.listen(localPort, function () {
     console.log(`Server listening on port ${localPort}`);
 });
+
+module.exports=clientList

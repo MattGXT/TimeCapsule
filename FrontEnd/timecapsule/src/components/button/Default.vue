@@ -1,5 +1,5 @@
 <template>
-  <button :disabled="btnDisabled" :type="nativeType">
+  <button :disabled="btnDisabled" :type="nativeType" :class="{'btn-normal':!thin,'btn-thin':thin,'bnw':bnw}">
     <span v-if="$slots.default"><slot></slot></span>
   </button>
 </template>
@@ -14,6 +14,14 @@ export default {
       default: "button",
     },
     disabled: Boolean,
+    thin:{
+      type: Boolean,
+      default: false,
+    },
+    bnw:{
+      type: Boolean,
+      default: false,
+    }
   },
   computed: {
     btnDisabled() {
@@ -32,7 +40,7 @@ export default {
 .isolation {
   isolation: isolate;
 }
-button {
+.btn-normal {
   display: block;
   cursor: pointer;
   background: #FDFDFD;
@@ -101,6 +109,39 @@ button {
     pointer-events: none;
   }
 }
+
+.btn-thin{
+  padding:0;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 1em;
+  color: none !important;
+  border:none;
+  background: none;
+  cursor: pointer;
+
+  &::after {
+    max-width: 100%;
+  height: 2px;
+  display: block;
+  content: "";
+  background: linear-gradient(-90deg, #CABBE9 0%, #ffcef3 50%, #A1EAFB 100%);
+  opacity: 0.5;
+  margin-bottom: -6px;
+  margin-top: 1px;
+  transition: opacity 0.5s linear;
+  }
+
+  &:hover::after{
+    opacity: 1;
+  }
+}
+
+.bnw{
+    &::after{
+      background: linear-gradient(-90deg, gray 0%, gray 50%, gray 100%);
+    }
+  }
 
 @keyframes translateWobble {
   0% {

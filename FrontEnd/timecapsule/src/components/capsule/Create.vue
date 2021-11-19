@@ -21,9 +21,9 @@
       </div>
     </div>
     <div class="footer">
-      <button type="button" @click="create">
+      <m-btn thin type="button" @click="create">
         准备好了？
-      </button>
+      </m-btn>
     </div>
   </div>
 </template>
@@ -153,33 +153,4 @@ label {
   }
 }
 
-button {
-  border-radius: 4px;
-  font-weight: 500;
-  font-size: 1em;
-  padding: 4px 6px;
-  color: none !important;
-  border:none;
-  background: none;
-  cursor: pointer;
-
-  &::after {
-    max-width: 100%;
-  height: 2px;
-  display: block;
-  content: "";
-  background: linear-gradient(-90deg, #CABBE9 0%, #ffcef3 50%, #A1EAFB 100%);
-  background-position: left;
-  opacity: 1;
-  margin-bottom: -6px;
-  margin-top: 1px;
-  transition: 0.5s;
-  }
-  &:hover::after{
-
-    
-  }
-
-
-}
 </style>
