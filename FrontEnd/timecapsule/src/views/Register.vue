@@ -1,7 +1,7 @@
 <template>
   <div>
-      <UserSignUp v-bind="$attrs"></UserSignUp>
-      <EmailVerify v-bind="$attrs" v-show="showModal" v-on:closeModal = "this.showModal = false"></EmailVerify>
+      <UserSignUp v-bind="$attrs" v-on:verify="verify"></UserSignUp>
+      <EmailVerify v-bind="$attrs" v-show="showModal" v-on:closeModal = "this.showModal = false" :email = "email"></EmailVerify>
   </div>
 </template>
 
@@ -18,15 +18,17 @@ export default {
   },
   data() {
     return {
-      showModal:true,
+      showModal:false,
+      email:""
     };
   },
   created() {
 
   },
   methods: {
-    register(){
-        this.$router.push('/register')
+    verify(email){
+      this.showModal = true
+      this.email = email
     }
   },
 };

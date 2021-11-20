@@ -16,21 +16,21 @@ module.exports.signUp = async function (req, res) {
     const email = req.body.email
     const query = await db.collection("users").findOne({ "email": email })
     if (query) {
-        return res.send("Email existed")
+        return res.status(400).send("Email existed")
     }
     const query2 = await db.collection("verify").findOne({ "info.email": email })
     if (query2) {
-        return res.send("Email existed")
+        return res.status(403).send("Email existed")
     }
     try {
         const salt = await bcrypt.genSalt()
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
-        const user = { "email": email, "name": req.body.name, "password": hashedPassword, "gender": req.body.gender, "mateId": null }
+        const user = { "email": email, "name": req.body.name, "password": hashedPassword, "gender": req.body.gender, "mateId": "" }
         const code = crypto.randomBytes(20).toString('hex')
         const createdAt = new Date()
-        const expired = new Date(createdAt.setDate(createdAt.getDate() + 5))
+        const expired = new Date(createdAt.setDate(createdAt.getDate() + 1))
         db.collection("verify").insertOne({ info: user, verify: code, expired: expired.getTime() }, function (err, id) {
-            if (err) return res.sendStatus(406)
+            if (err) return res.sendStatus(500)
             mail.sendMail(email, code)
             return res.sendStatus(200)
         })
@@ -48,13 +48,13 @@ module.exports.verify = async function (req, res) {
     }
     const query = await db.collection("verify").findOne({ "verify": verify })
     if (!query) {
-        return res.status(406).send("Please send it again")
+        return res.status(400).send("请重新获取验证邮件")
     }
     if (query.expired < time) {
         const code = crypto.randomBytes(20).toString('hex')
         const createdAt = new Date()
-        const expired = new Date(createdAt.setDate(createdAt.getDate() + 5))
-        const result = await db.collection("verify").updateOne({ "verify": verify }, { $set: { "verify": id, "expired": expired.getTime() } })
+        const expired = new Date(createdAt.setDate(createdAt.getDate() + 1))
+        const result = await db.collection("verify").updateOne({ "verify": verify }, { $set: { "verify": code, "expired": expired.getTime() } })
         if (result) {
             mail.sendMail(query.info.email, code)
         }
@@ -71,11 +71,12 @@ module.exports.verify = async function (req, res) {
                 await db.collection("users").insertOne(user)
                 await db.collection("verify").deleteOne({ "verify": verify })
             }, transactionOptions)
-        } catch {
-            res.send("Create failed")
+        } catch(error) {
+            console.log(error)
+            return res.status(500).send("Create failed")
         } finally {
             await session.endSession();
-            res.send("Create Successful")
+            return res.send("Create Successful")
         }
     }
 }
@@ -90,19 +91,49 @@ module.exports.login = async function (req, res) {
                 const accessToken = jwt.sign({ email: email, _id: query._id }, process.env.ACCESS_TOKEN_SECRET)
                 return res.send({ "accessToken": accessToken, "mateId": query.mateId, "name": query.name, "email": query.email })
             } else {
-                res.sendStatus(400)
+                return res.sendStatus(400)
             }
         } catch {
-            res.sendStatus(500)
+            return res.sendStatus(500)
         }
     } else {
-        const query2 = await db.collection("verify").findOne({ email })
+        const query2 = await db.collection("verify").findOne({ "info.email": email })
         if(query2){
-            return res.status(403).send("please check your email to confirm the register")
+            try {
+                if (await bcrypt.compare(password, query2.info.password)) {
+                    return res.sendStatus(403)
+                } else {
+                    return res.sendStatus(400)
+                }
+            } catch {
+                return res.sendStatus(500)
+            }
         }else{
             return res.sendStatus(400)
         }
+        
     }
+}
+
+module.exports.resend = async function (req, res) {
+    try {
+        const email = req.body.email
+        const query = await db.collection("verify").findOne({ "info.email": email })
+        if (!query) return res.status(400).send("No verify exist")
+        const code = crypto.randomBytes(20).toString('hex')
+        const createdAt = new Date()
+        const expired = new Date(createdAt.setDate(createdAt.getDate() + 1))
+        const result = await db.collection("verify").updateOne({ "_id": query._id }, { $set: { "verify": code, "expired": expired.getTime() } })
+        if (result) {
+            mail.sendMail(query.info.email, code)
+        }
+    } catch {
+        return res.sendStatus(500)
+    } finally {
+        return res.send("Successful")
+    }
+
+
 }
 
 module.exports.edit = async function (req, res) {
@@ -112,7 +143,7 @@ module.exports.edit = async function (req, res) {
     if (result) {
         return res.send("successful")
     } else {
-        return res.sendStatus(401)
+        return res.sendStatus(500)
     }
 }
 
@@ -132,10 +163,10 @@ module.exports.removeMate = async function (req, res) {
                 await db.collection("users").updateOne({ "_id": query._id }, { $set: { "mateId": null } })
             }, transactionOptions)
         } catch {
-            res.send("Remove failed")
+            return res.status(500).send("Remove failed")
         } finally {
             await session.endSession();
-            res.send("Remove Successful")
+            return res.send("Remove Successful")
         }
 
     }

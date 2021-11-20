@@ -2,14 +2,14 @@
   <div class="home">
     <RequestGet
       v-bind="$attrs"
-      v-if="token !== null && mateId == null"
+      v-if="token !== null && mateId == ''"
     ></RequestGet>
     <CapsuleList
       :lists="capsule"
       v-on:refresh="getCapsule()"
       :loading="loading"
       v-on:getNext="getNext"
-      v-if="token !== null && mateId !== null"
+      v-if="token !== null && mateId !== ''"
     ></CapsuleList>
     <m-modal v-bind="$attrs" v-show="showModal" v-on:closeModal = "this.showModal = false" :contents = modalContent></m-modal>
   </div>
@@ -44,7 +44,8 @@ export default {
       amount: 12,
       isFullLoaded: false,
       showModal:false,
-      modalContent:null
+      modalContent:null,
+      ws:undefined
     };
   },
   async created() {
@@ -114,7 +115,9 @@ export default {
     },
 
     wsConnect() {
+      if(this.ws) return
       const ws = new WebSocket("ws://localhost:3000?token=" + this.token);
+      this.ws = ws
       console.log("connection start");
       ws.onopen = function() {
         let ping = setInterval(() => {
@@ -132,7 +135,6 @@ export default {
       ws.onclose = ()=> {
         setTimeout(()=> {
           if(this.token !== null){this.wsConnect();}
-          
         }, 10000);
       };
       ws.onerror = ()=> {

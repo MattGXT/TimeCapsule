@@ -12,7 +12,7 @@
 
     <div class="input-signUp">
       <label for="female">
-        <input class = "gender" type="radio" id="female" v-model="gender" value="0" checked/>
+        <input class = "gender" type="radio" id="female" v-model="gender" value=0 checked/>
         <svg
           class="female"
           xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@
         </svg>
       </label>
       <label for="male">
-        <input class = "gender" type="radio" id="male" v-model="gender" value="1" />
+        <input class = "gender" type="radio" id="male" v-model="gender" value=1 />
       <svg class="male" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path
           d="M9,9C10.29,9 11.5,9.41 12.47,10.11L17.58,5H13V3H21V11H19V6.41L13.89,11.5C14.59,12.5 15,13.7 15,15A6,6 0 0,1 9,21A6,6 0 0,1 3,15A6,6 0 0,1 9,9M9,11A4,4 0 0,0 5,15A4,4 0 0,0 9,19A4,4 0 0,0 13,15A4,4 0 0,0 9,11Z"
@@ -50,27 +50,46 @@ export default {
       email: "",
       password: "",
       name: "",
-      gender: null,
+      gender: "0",
       publicPath: process.env.BASE_URL,
     };
   },
 
   methods: {
     register() {
-      if (this.email === "" || this.password === "" || this.gender === null) {
-        this.$emit("alert","填写完再提交哦")
+      if (this.email === "" || this.password === "" || this.gender === null || this.name === "") {
+        this.$emit("alert","请填写完再提交哦")
         return;
       }
-      const user = { email: this.email.toLowerCase(), password: this.password };
+      //eslint-disable-next-line
+      const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if(!this.email.match(regex)){
+        this.$emit("alert","请输入正确的邮箱")
+        return
+      }
+      const user = { email: this.email.toLowerCase(), password: this.password, name:this.name, gender: parseInt(this.gender)};
       axios
         .post("http://localhost:3000/signup", user)
         .then((res) => {
           if (res.status === 200) {
-            this.$emit("alert","感谢您的注册，请检查您的邮箱",true)
+            this.$emit("alert","注册成功",true)
           }
         })
         .catch((error) => {
-          console.log(error);
+          if(!error?.response?.status){
+            this.$emit("alert","稍等一下，网络可能有些问题")
+            return
+          }
+          switch (error.response.status){
+            case 400:
+              this.$emit("alert","请不要重复注册哦")
+              break
+            case 403:
+              this.$emit("verify",this.email)
+              break
+            default:
+              this.$emit("alert","未知错误")
+          }
         });
     },
   },

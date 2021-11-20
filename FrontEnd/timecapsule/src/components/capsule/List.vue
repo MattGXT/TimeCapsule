@@ -1,56 +1,60 @@
 <template>
-<transition name = "fadeHeight" mode="out-in">
-  <div class="contatiner-message" :class="{'message-loading':loading,'message-notloading':!loading}" ref="containerMessage" :style="{ '--outHeight': outHeight }">
-    <h1>{{ title }}</h1>
-    
+  <transition name="fadeHeight" mode="out-in">
     <div
-      class="timeline"
-      v-show="lists.length !== 0"
-      ref="container"
-      :style="{ '--containerHeight': height }"
+      class="main-container container-message"
+      :class="{ 'message-loading': loading, 'message-notloading': !loading }"
+      ref="containerMessage"
+      :style="{ '--outHeight': outHeight }"
     >
-      <div class="timeline_item" :key="list._id" v-for="list in lists">
-        <div class="timeline_item_content">
-          <div class="item_row">
-            <div>
-              {{
-                isSendbox
-                  ? sendDate(list.availableAt)
-                  : sendDate(list.createdAt)
-              }}
+      <h1>{{ title }}</h1>
+
+      <div
+        class="timeline"
+        v-show="lists.length !== 0"
+        ref="container"
+        :style="{ '--containerHeight': height }"
+      >
+        <div class="timeline_item" :key="list._id" v-for="list in lists">
+          <div class="timeline_item_content">
+            <div class="item_row">
+              <div>
+                {{
+                  isSendbox
+                    ? sendDate(list.availableAt)
+                    : sendDate(list.createdAt)
+                }}
+              </div>
+              <div>{{ list.content }}</div>
             </div>
-            <div>{{ list.content }}</div>
           </div>
-        </div>
-        <div class="timeline_item_divider">
-          <div class="item_dot">
-            <div
-              :class="{
-                pink: list.isRead,
-                blue: !list.isRead,
-                dot_send: isSendbox,
-                dot: !isSendbox,
-              }"
-              @click="read(list._id)"
-            ></div>
+          <div class="timeline_item_divider">
+            <div class="item_dot">
+              <div
+                :class="{
+                  pink: list.isRead,
+                  blue: !list.isRead,
+                  dot_send: isSendbox,
+                  dot: !isSendbox,
+                }"
+                @click="read(list._id)"
+              ></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    
-    <transition>
-      <div class="loader" v-show="loading"></div>
-    </transition> 
-      
 
-    <div v-if="!loading && lists.length === 0">
-      {{
-        isSendbox
-          ? "您还没有埋下过胶囊哦。点击上方的加号尝试一下吧！"
-          : "您没有已经打开过的胶囊哦。再等等吧，也许明天就有了呢？"
-      }}
+      <transition>
+        <div class="loader" v-show="loading"></div>
+      </transition>
+
+      <div v-if="!loading && lists.length === 0">
+        {{
+          isSendbox
+            ? "您还没有埋下过胶囊哦。点击上方的加号尝试一下吧！"
+            : "您没有已经打开过的胶囊哦。再等等吧，也许明天就有了呢？"
+        }}
+      </div>
     </div>
-  </div>
   </transition>
 </template>
 
@@ -79,24 +83,24 @@ export default {
   data() {
     return {
       height: "",
-      outHeight:""
+      outHeight: "",
     };
   },
   watch: {
-    loading:function(newVal){
-      if(newVal === true){
+    loading: function(newVal) {
+      if (newVal === true) {
         this.outHeight = this.$refs.containerMessage.offsetHeight + "px";
       }
-    }
+    },
   },
   updated() {
-    this.$nextTick(function () {
-    this.matchHeight();
-  })
+    this.$nextTick(function() {
+      this.matchHeight();
+    });
   },
   mounted() {
     let container = this.$refs.container;
-    
+
     container.addEventListener("scroll", () => {
       let scrollHeight = container.scrollHeight;
       let clientHeight = container.clientHeight;
@@ -105,7 +109,6 @@ export default {
         this.$emit("getNext");
       }
     });
-    
   },
   created() {},
   activated() {},
@@ -158,25 +161,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.contatiner-message {
-  width: 400px;
-  border-radius: 4px;
-  background-color: #fdfdfd;
-  padding: 1em;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
-  text-align: left;
-  margin: 0 auto;
-  z-index: 0;
+.container-message {
   height: auto;
- transition: max-height 1s;
+  transition: max-height 1s;
 }
 
-.message-loading{
-  max-height:80vh;
+.message-loading {
+  max-height: 80vh;
 }
 
-.message-notloading{
+.message-notloading {
   max-height: 60vh;
 }
 
@@ -186,7 +180,7 @@ export default {
   overflow-x: hidden;
   overflow-y: scroll;
   max-height: 50vh;
-  
+
   &::-webkit-scrollbar {
     width: 12px;
   }
@@ -347,6 +341,4 @@ h1 {
     transform: rotate(1turn);
   }
 }
-
-
 </style>

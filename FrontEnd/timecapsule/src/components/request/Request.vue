@@ -15,7 +15,7 @@
     </div>
 
     
-    <div class="container-applications">
+    <div class="main-container container-applications">
       <h1>来自Ta们的请求</h1>
       <div class="application" v-for="content in contents" :key="content._id" v-show="contents.length > 0">
         <div>{{ content.name }}-{{ content.email }}</div>
@@ -101,7 +101,6 @@ export default {
             case 400:
               this.$emit("alert","该请求不存在")
               break
-             
             default:
               this.$emit("alert","未知错误")
           }
@@ -194,18 +193,6 @@ h1 {
 }
 
 .container-applications {
-  width: 400px;
-  border-radius: 4px;
-  background-color: #fdfdfd;
-  padding: 1em;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
-  text-align: left;
-  margin: 0 auto;
-  z-index: 0;
-  margin-bottom: 20px;
-  
-
   display: flex;
   flex-direction: column;
 }

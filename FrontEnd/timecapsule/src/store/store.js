@@ -13,7 +13,7 @@ export default createStore({
         },
         logout(state) {
             state.token = null
-            state.mateId = null
+            state.mateId = ""
         },
         setMateId(state,Id) {
             state.mateId = Id

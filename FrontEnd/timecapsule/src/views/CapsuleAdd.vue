@@ -26,7 +26,7 @@ export default {
     };
   },
   created() {
-    this.tokenValid();  
+    this.tokenValid();
   },
   activated() {
     this.tokenValid();  
@@ -41,7 +41,7 @@ export default {
             },
           })
           .then((res) => {
-            if (res.status === 200 && res.data.mateId !== null) {
+            if (res.status === 200&&this.mateId!=="") {
               localStorage.setItem("mateId", res.data.mateId);
               this.setMateId(res.data.mateId);
             }

@@ -10,7 +10,7 @@
               ></path>
             </svg>
           </button>
-          <h1>请检查您的邮箱</h1>
+          <h1>请验证您的邮箱</h1>
           <div class="modal-content"></div>
           <m-btn thin @click="resendEmail()" :disabled="disabled"
             >没收到？再发送一次</m-btn> <span class="countdown" v-show="countStart">{{ time }}s</span>
@@ -23,6 +23,7 @@
 
 <script>
 import { useStore } from "vuex";
+import axios from "axios";
 
 export default {
   setup() {
@@ -38,7 +39,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    contents: Object,
+    email:String
   },
   data() {
     return { time: 60, countStart: false, disabled: false };
@@ -71,6 +72,27 @@ export default {
       this.countdown(60);
       this.countStart = true;
       this.disabled = true;
+      if (this.email === "") return
+      axios
+        .post("http://localhost:3000/resend", {email:this.email})
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("Successful");
+          }
+        })
+        .catch((error) => {
+          if(!error?.response?.status){
+            this.$emit("alert","稍等一下，网络可能有些问题")
+            return
+          }
+          switch (error.response.status){
+            case 500:
+              this.$emit("alert","系统错误")
+              break
+            default:
+              this.$emit("alert","未知错误")
+          }
+        });
     },
   },
   computed: {},

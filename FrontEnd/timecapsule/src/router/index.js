@@ -36,7 +36,7 @@ const routes = [
   {
     path: '/capsule/add',
     name: 'Capsule',
-    meta: { requiresLogin: true },
+    meta: { requiresLogin: true, requiresMate: true },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -45,12 +45,15 @@ const routes = [
   {
     path: '/capsule/own',
     name: 'CapsuleOwn',
-    meta: { requiresLogin: true },
+    meta: { requiresLogin: true, requiresMate: true },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/CapsuleSend.vue')
-  }
+  },
+  { path: '/:catchAll(.*)', 
+  component: () => import(/* webpackChunkName: "about" */ '../views/PageNotFound.vue'),
+  name: 'NotFound'}
 ]
 
 
@@ -61,17 +64,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresLogin) && store.state.token == null) {
-      // You can use store variable here to access globalError or commit mutation 
-      next("/Login")
-  } else {
-    if(to.matched.some(record => record.name ==="Login") && store.state.token !== null){
-      next("/")
-    }else{
-      next()
-    }
-      
-  }
+  if (to.matched.some(record => record.meta.requiresLogin) && store.state.token === null) next("/login")
+  else if (to.matched.some(record => record.meta.requiresMate) && store.state.mateId === "") next("/")
+  else next()
+
+
+
+  
 })
 
 export default router

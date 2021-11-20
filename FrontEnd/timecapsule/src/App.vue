@@ -8,7 +8,7 @@
     <div class="middle">
       <ul>
         <li>
-          <button v-show="token !== null && mateId !== null" @click="add()">
+          <button v-show="token !== null && mateId !== ''" @click="add()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"></path>
             </svg>
@@ -24,7 +24,7 @@
           </button>
         </li>
         <li>
-          <button v-show="token !== null && mateId !== null" @click="sendBox()">
+          <button v-show="token !== null && mateId !== ''" @click="sendBox()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path
                 d="M12,7L17,12H14V16H10V12H7L12,7M19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21M19,19V5H5V19H19Z"
@@ -213,4 +213,16 @@ ul {
 }
 
 svg{transition: fill 0.3s;}
+
+.main-container{
+    width: 400px;
+  border-radius: 4px;
+  background-color: #fdfdfd;
+  padding: 1em;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+  text-align: left;
+  margin: 0 auto;
+  z-index: 0;
+}
 </style>

@@ -16,7 +16,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email":"tianyixingchen@gmail.com",
+    "email":"249894814@qq.com",
     "password":"matt1234"
 }
 
@@ -68,3 +68,11 @@ Content-Type: application/json
 ###
 GET http://localhost:3000/remove-mate
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjJAcXEuY29tIiwiX2lkIjoiNjE1ZWQ5OGNmYmM3MmM2NDNhNTg0NmMyIiwiaWF0IjoxNjMzNzU4OTkwfQ.fE9Vw1vpcMww6mEQpc0C0ZrL3Xv3bxYUPGKXy4KT89A
+
+###
+POST http://localhost:3000/resend
+Content-Type: application/json
+
+{
+    "email":"249894814@qq.com"
+}

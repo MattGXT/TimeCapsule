@@ -41,7 +41,13 @@ export default {
     login() {
       if (this.email === "" || this.password === "") {
         this.$emit("alert","请输入正确的格式")
-        return;
+        return
+      }
+      //eslint-disable-next-line
+      const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if(!this.email.match(regex)){
+        this.$emit("alert","请输入正确的邮箱")
+        return
       }
       const user = { email: this.email.toLowerCase() , password: this.password };
       axios
@@ -69,8 +75,8 @@ export default {
             case 400:
               this.$emit("alert","用户名/密码错误")
               break
-            case 401:
-              this.$emit("alert","请验证您的邮箱")
+            case 403:
+              this.$emit("verify",this.email)
               break
             default:
               this.$emit("alert","未知错误")

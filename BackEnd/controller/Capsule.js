@@ -8,10 +8,9 @@ const db = connection.client.db(dbName);
 module.exports.create = async function (req, res) {
     const ownerId = new ObjectId(req.user._id)
     const query = await db.collection("users").findOne({ "_id": ownerId })
-    if (!query){
-        res.status(400).send("user not exist")
-        return
-    }
+    if (!query) return res.status(400).send("user not exist")
+    const periodMap = new Map([[0,0],[1,1],[2,3],[3,5],[4,10]])
+    if (!query.mateId) return res.status(400).send("mate not exist")
     const receiverId = new ObjectId(query.mateId)
     const content = req.body.content
     const createdAt = new Date()
@@ -21,7 +20,7 @@ module.exports.create = async function (req, res) {
     if (period === 0){
         availableTime.setMonth(availableTime.getMonth()+6)
     }else{
-        availableTime.setFullYear(availableTime.getFullYear()+period)
+        availableTime.setFullYear(availableTime.getFullYear()+periodMap.get(period))
     }
     availableTime.setDate(availableTime.getDate()+1)
     const capsule = { ownerId, receiverId, content, createdAt, "availableAt":availableTime, isRead}

@@ -68,6 +68,7 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             this.$emit("alert", "开始和她/他分享吧", true);
+            this.$router.go()
           }
         })
         .catch((error) => {
